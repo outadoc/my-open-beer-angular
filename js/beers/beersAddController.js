@@ -46,7 +46,8 @@ module.exports = function ($scope, config, $location, rest, save, $document, mod
 
 		$scope.data.posted = {
 			"name": beer.name,
-			"description": beer.description
+			"description": beer.description,
+			"photo": beer.photo
 		};
 
 		$scope.data.beers.push(beer);

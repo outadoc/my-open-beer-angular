@@ -152,7 +152,7 @@ angular.module("mainApp", ["ngRoute", "ngResource", "ngAnimate", require("./brew
 
 		$rootScope.$on('$routeChangeSuccess', function (e, current, pre) {
 			var paths = $location.path().split("/");
-			var result = new Array();
+			var result = [];
 			var href = "";
 
 			for (var i in paths) {
@@ -227,7 +227,8 @@ module.exports = function ($scope, config, $location, rest, save, $document, mod
 
 		$scope.data.posted = {
 			"name": beer.name,
-			"description": beer.description
+			"description": beer.description,
+			"photo": beer.photo
 		};
 
 		$scope.data.beers.push(beer);
@@ -246,6 +247,7 @@ module.exports = function ($scope, config, $location, rest, save, $document, mod
 };
 },{}],8:[function(require,module,exports){
 module.exports = function ($scope, rest, $timeout, $location, config, $route, save) {
+
 	$scope.data = {load: false};
 
 	$scope.sortBy = {field: "name", asc: false};
@@ -303,20 +305,24 @@ module.exports = function ($scope, rest, $timeout, $location, config, $route, sa
 		$timeout(function () {
 			message.deleted = true;
 		}, 5000);
+
 		return true;
 	};
 
 	$scope.countSelected = function () {
 		var result = 0;
+
 		angular.forEach($scope.data.beers, function (value, key) {
 			if (value.selected && !value.deleted)
 				result++;
 		});
+
 		return result;
 	};
 
 	$scope.hideDeleted = function () {
 		$scope.mustHideDeleted = !$scope.mustHideDeleted;
+
 		angular.forEach($scope.data.beers, function (value, key) {
 			if ($scope.mustHideDeleted) {
 				if (value.flag === 'Deleted')
@@ -339,14 +345,18 @@ module.exports = function ($scope, rest, $timeout, $location, config, $route, sa
 		if (angular.isUndefined(beer)) {
 			beer = $scope.activeBeer;
 		}
+
 		$scope.data.posted = {
 			"beer": {
 				"name": beer.name,
-				"url": beer.url
+				"description": beer.description,
+				"photo": beer.photo
 			}
 		};
+
 		$scope.data.beers.push(beer);
 		beer.created_at = new Date();
+
 		if (config.beers.update === "immediate" || force) {
 			rest.post($scope.data, "beers", beer.name, callback);
 		} else {
@@ -361,6 +371,7 @@ module.exports = function ($scope, rest, $timeout, $location, config, $route, sa
 				$scope.removeOne(value);
 			}
 		});
+
 		return true;
 	};
 
@@ -406,11 +417,13 @@ module.exports = function ($scope, config, $location, rest, save, $document, mod
 
 			$scope.data.posted = {
 				"name": beer.name,
-				"description": beer.description
+				"description": beer.description,
+				"photo": beer.photo
 			};
 
 			config.activeBeer.reference.name = $scope.activeBeer.name;
 			config.activeBeer.reference.description = $scope.activeBeer.description;
+			config.activeBeer.reference.photo = $scope.activeBeer.photo;
 			config.activeBeer.reference.updated_at = new Date();
 
 			if (config.beers.update === "immediate" || force)
