@@ -182,16 +182,17 @@ angular.module("mainApp", ["ngRoute", "ngResource", "ngAnimate", require("./brew
 module.exports = function ($scope, config, $location, rest, save, $document, modalService) {
 
 	$scope.data = {};
-	$scope.data["breweries"] = config.breweries.all;
+	$scope.data["beers"] = config.beers.all;
 
 	var self = this;
 	var selfScope = $scope;
+
 	$scope.setFormScope = function (form) {
-		$scope.frmBrewery = form;
+		$scope.frmBeer = form;
 	};
 
 	var onRouteChangeOff = $scope.$on('$locationChangeStart', function routeChange(event, newUrl, oldUrl) {
-		if (!$scope.frmBrewery || !$scope.frmBrewery.$dirty || $scope.exit) return;
+		if (!$scope.frmBeer || !$scope.frmBeer.$dirty || $scope.exit) return;
 
 		var alert = modalService.showModal("Sortie", "<b>Attention</b>, si vous continuez, vous perdez les modifications en cours.<br>Enregistrer avant sortie ?", function (value) {
 				selfScope.exit = true;
@@ -211,37 +212,37 @@ module.exports = function ($scope, config, $location, rest, save, $document, mod
 		event.preventDefault();
 	});
 
-	$scope.update = function (brewery, force, callback) {
-		if ($scope._update(brewery, force, callback) == true) {
-			$location.path("breweries");
+	$scope.update = function (beer, force, callback) {
+		if ($scope._update(beer, force, callback) == true) {
+			$location.path("beers");
 		}
 	};
 
-	$scope._update = function (brewery, force, callback) {
+	$scope._update = function (beer, force, callback) {
 		var result = false;
 
-		if (angular.isUndefined(brewery)) {
-			brewery = $scope.activeBrewery;
+		if (angular.isUndefined(beer)) {
+			beer = $scope.activeBeer;
 		}
 
 		$scope.data.posted = {
-			"name": brewery.name,
-			"url": brewery.url
+			"name": beer.name,
+			"description": beer.description
 		};
 
-		$scope.data.breweries.push(brewery);
-		brewery.created_at = new Date();
+		$scope.data.beers.push(beer);
+		beer.created_at = new Date();
 
-		if (config.breweries.update === "immediate" || force) {
-			rest.post($scope.data, "breweries", brewery.name, callback);
+		if (config.beers.update === "immediate" || force) {
+			rest.post($scope.data, "beers", beer.name, callback);
 		} else {
-			save.addOperation("New", $scope.update, brewery);
+			save.addOperation("New", $scope.update, beer);
 			result = true;
 		}
 
 		return result;
 	}
-	
+
 };
 },{}],8:[function(require,module,exports){
 module.exports = function ($scope, rest, $timeout, $location, config, $route, save) {
@@ -384,39 +385,39 @@ module.exports = angular.module("BeersApp").name;
 },{"./beersAddController":7,"./beersController":8,"./beersUpdateController":10}],10:[function(require,module,exports){
 module.exports = function ($scope, config, $location, rest, save, $document, modalService, $controller) {
 
-	$controller('BreweryAddController', {$scope: $scope});
+	$controller('BeersAddController', {$scope: $scope});
 
-	if (angular.isUndefined(config.activeBrewery)) {
-		$location.path("breweries/");
+	if (angular.isUndefined(config.activeBeer)) {
+		$location.path("beers/");
 	}
 
-	$scope.activeBrewery = config.activeBrewery;
+	$scope.activeBeer = config.activeBeer;
 
-	$scope._update = function (brewery, force, callback) {
+	$scope._update = function (beer, force, callback) {
 		var result = false;
 
-		if (force || $scope.frmBrewery.$dirty) {
-			if (angular.isUndefined(brewery)) {
-				brewery = $scope.activeBrewery;
+		if (force || $scope.frmBeer.$dirty) {
+			if (angular.isUndefined(beer)) {
+				beer = $scope.activeBeer;
 			} else {
-				config.activeBrewery = angular.copy(brewery);
-				config.activeBrewery.reference = brewery;
+				config.activeBeer = angular.copy(beer);
+				config.activeBeer.reference = beer;
 			}
 
 			$scope.data.posted = {
-				"name": brewery.name,
-				"url": brewery.url
+				"name": beer.name,
+				"description": beer.description
 			};
 
-			config.activeBrewery.reference.name = $scope.activeBrewery.name;
-			config.activeBrewery.reference.url = $scope.activeBrewery.url;
-			config.activeBrewery.reference.updated_at = new Date();
+			config.activeBeer.reference.name = $scope.activeBeer.name;
+			config.activeBeer.reference.description = $scope.activeBeer.description;
+			config.activeBeer.reference.updated_at = new Date();
 
-			if (config.breweries.update === "immediate" || force)
-				rest.put(config.activeBrewery.id, $scope.data, "breweries", config.activeBrewery.name, callback);
+			if (config.beers.update === "immediate" || force)
+				rest.put(config.activeBeer.id, $scope.data, "beers", config.activeBeer.name, callback);
 			else {
-				config.activeBrewery.reference.flag = "Updated";
-				save.addOperation("Updated", $scope.update, config.activeBrewery.reference);
+				config.activeBeer.reference.flag = "Updated";
+				save.addOperation("Updated", $scope.update, config.activeBeer.reference);
 				result = true;
 			}
 
@@ -570,16 +571,17 @@ module.exports = angular.module("BreweriesApp").name;
 module.exports = function ($scope, config, $location, rest, save, $document, modalService) {
 
 	$scope.data = {};
-	$scope.data["beers"] = config.beers.all;
+	$scope.data["breweries"] = config.breweries.all;
 
 	var self = this;
 	var selfScope = $scope;
+
 	$scope.setFormScope = function (form) {
-		$scope.frmbeer = form;
+		$scope.frmBrewery = form;
 	};
 
 	var onRouteChangeOff = $scope.$on('$locationChangeStart', function routeChange(event, newUrl, oldUrl) {
-		if (!$scope.frmbeer || !$scope.frmbeer.$dirty || $scope.exit) return;
+		if (!$scope.frmBrewery || !$scope.frmBrewery.$dirty || $scope.exit) return;
 
 		var alert = modalService.showModal("Sortie", "<b>Attention</b>, si vous continuez, vous perdez les modifications en cours.<br>Enregistrer avant sortie ?", function (value) {
 				selfScope.exit = true;
@@ -599,31 +601,75 @@ module.exports = function ($scope, config, $location, rest, save, $document, mod
 		event.preventDefault();
 	});
 
-	$scope.update = function (beer, force, callback) {
-		if ($scope._update(beer, force, callback) == true) {
-			$location.path("beers");
+	$scope.update = function (brewery, force, callback) {
+		if ($scope._update(brewery, force, callback) == true) {
+			$location.path("breweries");
 		}
 	};
 
-	$scope._update = function (beer, force, callback) {
+	$scope._update = function (brewery, force, callback) {
 		var result = false;
-
-		if (angular.isUndefined(beer)) {
-			beer = $scope.activebeer;
+		if (angular.isUndefined(brewery)) {
+			brewery = $scope.activeBrewery;
 		}
-
 		$scope.data.posted = {
-			"name": beer.name,
-			"url": beer.url
+			"name": brewery.name,
+			"url": brewery.url
 		};
 
-		$scope.data.beers.push(beer);
-		beer.created_at = new Date();
+		$scope.data.breweries.push(brewery);
+		brewery.created_at = new Date();
 
-		if (config.beers.update === "immediate" || force) {
-			rest.post($scope.data, "beers", beer.name, callback);
+		if (config.breweries.update === "immediate" || force) {
+			rest.post($scope.data, "breweries", brewery.name, callback);
 		} else {
-			save.addOperation("New", $scope.update, beer);
+			save.addOperation("New", $scope.update, brewery);
+			result = true;
+		}
+		return result;
+	}
+
+};
+},{}],14:[function(require,module,exports){
+module.exports = function ($scope, config, $location, rest, save, $document, modalService, $controller) {
+
+	$controller('BreweryAddController', {$scope: $scope});
+
+	if (angular.isUndefined(config.activeBrewery)) {
+		$location.path("breweries/");
+	}
+
+	$scope.activeBrewery = config.activeBrewery;
+
+	$scope._update = function (brewery, force, callback) {
+		var result = false;
+
+		if (force || $scope.frmBrewery.$dirty) {
+			if (angular.isUndefined(brewery)) {
+				brewery = $scope.activeBrewery;
+			} else {
+				config.activeBrewery = angular.copy(brewery);
+				config.activeBrewery.reference = brewery;
+			}
+
+			$scope.data.posted = {
+				"name": brewery.name,
+				"url": brewery.url
+			};
+
+			config.activeBrewery.reference.name = $scope.activeBrewery.name;
+			config.activeBrewery.reference.url = $scope.activeBrewery.url;
+			config.activeBrewery.reference.updated_at = new Date();
+
+			if (config.breweries.update === "immediate" || force)
+				rest.put(config.activeBrewery.id, $scope.data, "breweries", config.activeBrewery.name, callback);
+			else {
+				config.activeBrewery.reference.flag = "Updated";
+				save.addOperation("Updated", $scope.update, config.activeBrewery.reference);
+				result = true;
+			}
+
+		} else {
 			result = true;
 		}
 
@@ -631,9 +677,7 @@ module.exports = function ($scope, config, $location, rest, save, $document, mod
 	}
 
 };
-},{}],14:[function(require,module,exports){
-arguments[4][10][0].apply(exports,arguments)
-},{"dup":10}],15:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 module.exports = function ($routeProvider, $locationProvider, $httpProvider) {
 
 	//$httpProvider.defaults.useXDomain = true;
@@ -659,6 +703,15 @@ module.exports = function ($routeProvider, $locationProvider, $httpProvider) {
 		}).when('/beers', {
 			templateUrl: 'templates/beers/main.html',
 			controller: 'BeersController'
+		}).when('/beers/refresh', {
+			templateUrl: 'templates/beers/main.html',
+			controller: 'BeersController'
+		}).when('/beers/new', {
+			templateUrl: 'templates/beers/beerForm.html',
+			controller: 'BeersAddController'
+		}).when('/beers/update', {
+			templateUrl: 'templates/beers/beerForm.html',
+			controller: 'BeersUpdateController'
 		}).when('/saves', {
 			templateUrl: 'templates/saveMain.html',
 			controller: 'SaveController'
@@ -713,7 +766,7 @@ module.exports = function () {
 	factory.beers.update = "immediate";//deffered|immediate
 
 	factory.server.privateToken = "";
-	factory.server.restServerUrl = "http://127.0.0.1/rest-open-beer/";
+	factory.server.restServerUrl = "http://localhost/dut/S4/js_framework/rest-open-beer/";
 	factory.server.force = false;
 
 	return factory;

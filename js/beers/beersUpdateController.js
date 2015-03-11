@@ -1,38 +1,38 @@
 module.exports = function ($scope, config, $location, rest, save, $document, modalService, $controller) {
 
-	$controller('BreweryAddController', {$scope: $scope});
+	$controller('BeersAddController', {$scope: $scope});
 
-	if (angular.isUndefined(config.activeBrewery)) {
-		$location.path("breweries/");
+	if (angular.isUndefined(config.activeBeer)) {
+		$location.path("beers/");
 	}
 
-	$scope.activeBrewery = config.activeBrewery;
+	$scope.activeBeer = config.activeBeer;
 
-	$scope._update = function (brewery, force, callback) {
+	$scope._update = function (beer, force, callback) {
 		var result = false;
 
-		if (force || $scope.frmBrewery.$dirty) {
-			if (angular.isUndefined(brewery)) {
-				brewery = $scope.activeBrewery;
+		if (force || $scope.frmBeer.$dirty) {
+			if (angular.isUndefined(beer)) {
+				beer = $scope.activeBeer;
 			} else {
-				config.activeBrewery = angular.copy(brewery);
-				config.activeBrewery.reference = brewery;
+				config.activeBeer = angular.copy(beer);
+				config.activeBeer.reference = beer;
 			}
 
 			$scope.data.posted = {
-				"name": brewery.name,
-				"url": brewery.url
+				"name": beer.name,
+				"description": beer.description
 			};
 
-			config.activeBrewery.reference.name = $scope.activeBrewery.name;
-			config.activeBrewery.reference.url = $scope.activeBrewery.url;
-			config.activeBrewery.reference.updated_at = new Date();
+			config.activeBeer.reference.name = $scope.activeBeer.name;
+			config.activeBeer.reference.description = $scope.activeBeer.description;
+			config.activeBeer.reference.updated_at = new Date();
 
-			if (config.breweries.update === "immediate" || force)
-				rest.put(config.activeBrewery.id, $scope.data, "breweries", config.activeBrewery.name, callback);
+			if (config.beers.update === "immediate" || force)
+				rest.put(config.activeBeer.id, $scope.data, "beers", config.activeBeer.name, callback);
 			else {
-				config.activeBrewery.reference.flag = "Updated";
-				save.addOperation("Updated", $scope.update, config.activeBrewery.reference);
+				config.activeBeer.reference.flag = "Updated";
+				save.addOperation("Updated", $scope.update, config.activeBeer.reference);
 				result = true;
 			}
 
