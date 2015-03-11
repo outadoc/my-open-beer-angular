@@ -137,7 +137,7 @@ module.exports=function(){
 	};
 };
 },{}],6:[function(require,module,exports){
-angular.module("mainApp", ["ngRoute", "ngResource", "ngAnimate", require("./breweries/breweriesModule"), require("./config/configModule")]).
+angular.module("mainApp", ["ngRoute", "ngResource", "ngAnimate", require("./breweries/breweriesModule"), require("./beers/beersModule"), require("./config/configModule")]).
 	controller("MainController", ["$scope", "$location", "save", "$window", require("./mainController")]).
 	controller("SaveController", ["$scope", "$location", "save", require("./save/saveController")]).
 	service("rest", ["$http", "$resource", "$location", "config", "$sce", require("./services/rest")]).
@@ -178,7 +178,257 @@ angular.module("mainApp", ["ngRoute", "ngResource", "ngAnimate", require("./brew
 	}]
 ).factory("config", require("./config/configFactory"));
 
-},{"./addons/drag":1,"./addons/modal":2,"./addons/modalService":3,"./addons/notDeletedFilter":4,"./addons/sortBy":5,"./breweries/breweriesModule":8,"./config":11,"./config/configFactory":13,"./config/configModule":14,"./mainController":15,"./save/saveController":16,"./services/rest":17,"./services/save":18}],7:[function(require,module,exports){
+},{"./addons/drag":1,"./addons/modal":2,"./addons/modalService":3,"./addons/notDeletedFilter":4,"./addons/sortBy":5,"./beers/beersModule":9,"./breweries/breweriesModule":12,"./config":15,"./config/configFactory":17,"./config/configModule":18,"./mainController":19,"./save/saveController":20,"./services/rest":21,"./services/save":22}],7:[function(require,module,exports){
+module.exports = function ($scope, config, $location, rest, save, $document, modalService) {
+
+	$scope.data = {};
+	$scope.data["breweries"] = config.breweries.all;
+
+	var self = this;
+	var selfScope = $scope;
+	$scope.setFormScope = function (form) {
+		$scope.frmBrewery = form;
+	};
+
+	var onRouteChangeOff = $scope.$on('$locationChangeStart', function routeChange(event, newUrl, oldUrl) {
+		if (!$scope.frmBrewery || !$scope.frmBrewery.$dirty || $scope.exit) return;
+
+		var alert = modalService.showModal("Sortie", "<b>Attention</b>, si vous continuez, vous perdez les modifications en cours.<br>Enregistrer avant sortie ?", function (value) {
+				selfScope.exit = true;
+				if (value == "Enregistrer et continuer") {
+					onRouteChangeOff();
+					if (selfScope._update() == true) {
+						$location.path(newUrl.substring($location.absUrl().length - $location.url().length));
+					}
+				} else if (value == "Continuer") {
+					console.log(value);
+					onRouteChangeOff();
+					$location.path(newUrl.substring($location.absUrl().length - $location.url().length));
+				}
+			}
+		);
+
+		event.preventDefault();
+	});
+
+	$scope.update = function (brewery, force, callback) {
+		if ($scope._update(brewery, force, callback) == true) {
+			$location.path("breweries");
+		}
+	};
+
+	$scope._update = function (brewery, force, callback) {
+		var result = false;
+
+		if (angular.isUndefined(brewery)) {
+			brewery = $scope.activeBrewery;
+		}
+
+		$scope.data.posted = {
+			"name": brewery.name,
+			"url": brewery.url
+		};
+
+		$scope.data.breweries.push(brewery);
+		brewery.created_at = new Date();
+
+		if (config.breweries.update === "immediate" || force) {
+			rest.post($scope.data, "breweries", brewery.name, callback);
+		} else {
+			save.addOperation("New", $scope.update, brewery);
+			result = true;
+		}
+
+		return result;
+	}
+	
+};
+},{}],8:[function(require,module,exports){
+module.exports = function ($scope, rest, $timeout, $location, config, $route, save) {
+	$scope.data = {load: false};
+
+	$scope.sortBy = {field: "name", asc: false};
+
+	$scope.messages = rest.messages;
+
+	if (config.beers.refresh === "all" || !config.beers.loaded) {
+		$scope.data.load = true;
+		rest.getAll($scope.data, "beers");
+		config.beers.loaded = true;
+	} else {
+		$scope.data["beers"] = config.beers.all;
+	}
+
+	$scope.allSelected = false;
+
+	$scope.selectAll = function () {
+		angular.forEach($scope.data.beers, function (value, key) {
+			value.selected = $scope.allSelected;
+		});
+	};
+
+	$scope.refresh = function () {
+		save.executeAll();
+	};
+
+	$scope.showUpdate = function () {
+		return angular.isDefined($scope.activeBeer);
+	};
+
+	$scope.refreshOnAsk = function () {
+		return config.beers.refresh == 'ask';
+	};
+
+	$scope.defferedUpdate = function () {
+		return config.beers.update == 'deffered';
+	};
+
+	$scope.setActive = function (beer) {
+		if (beer !== $scope.activeBeer)
+			$scope.activeBeer = beer;
+		else
+			$scope.activeBeer = undefined;
+	};
+
+	$scope.isActive = function (beer) {
+		return beer == $scope.activeBeer;
+	};
+
+	$scope.hasMessage = function () {
+		return rest.messages.length > 0;
+	};
+
+	$scope.readMessage = function (message) {
+		$timeout(function () {
+			message.deleted = true;
+		}, 5000);
+		return true;
+	};
+
+	$scope.countSelected = function () {
+		var result = 0;
+		angular.forEach($scope.data.beers, function (value, key) {
+			if (value.selected && !value.deleted)
+				result++;
+		});
+		return result;
+	};
+
+	$scope.hideDeleted = function () {
+		$scope.mustHideDeleted = !$scope.mustHideDeleted;
+		angular.forEach($scope.data.beers, function (value, key) {
+			if ($scope.mustHideDeleted) {
+				if (value.flag === 'Deleted')
+					value.deleted = true;
+			} else {
+				value.deleted = false;
+			}
+		});
+	};
+
+	$scope.edit = function (beer) {
+		if (angular.isDefined(beer))
+			$scope.activeBeer = beer;
+		config.activeBeer = angular.copy($scope.activeBeer);
+		config.activeBeer.reference = $scope.activeBeer;
+		$location.path("beers/update");
+	};
+
+	$scope.update = function (beer, force, callback) {
+		if (angular.isUndefined(beer)) {
+			beer = $scope.activeBeer;
+		}
+		$scope.data.posted = {
+			"beer": {
+				"name": beer.name,
+				"url": beer.url
+			}
+		};
+		$scope.data.beers.push(beer);
+		beer.created_at = new Date();
+		if (config.beers.update === "immediate" || force) {
+			rest.post($scope.data, "beers", beer.name, callback);
+		} else {
+			save.addOperation("New", $scope.update, beer);
+			$location.path("beers");
+		}
+	};
+
+	$scope.remove = function () {
+		angular.forEach($scope.data.beers, function (value, key) {
+			if (value.selected) {
+				$scope.removeOne(value);
+			}
+		});
+		return true;
+	};
+
+	$scope.removeOne = function (beer, force, callback) {
+		if (config.beers.update === "immediate" || force) {
+			beer.deleted = true;
+			rest.remove(beer, "beers", callback);
+		} else {
+			save.addOperation("Deleted", $scope.removeOne, beer);
+			beer.deleted = $scope.hideDeleted;
+		}
+	};
+
+};
+},{}],9:[function(require,module,exports){
+var appBeers = angular.module("BeersApp", []).
+	controller("BeersController", ["$scope", "rest", "$timeout", "$location", "config", "$route", "save", require("./beersController")]).
+	controller("BeersAddController", ["$scope", "config", "$location", "rest", "save", "$document", "modalService", require("./beersAddController")]).
+	controller("BeersUpdateController", ["$scope", "config", "$location", "rest", "save", "$document", "modalService", "$controller", require("./beersUpdateController")]);
+
+module.exports = angular.module("BeersApp").name;
+},{"./beersAddController":7,"./beersController":8,"./beersUpdateController":10}],10:[function(require,module,exports){
+module.exports = function ($scope, config, $location, rest, save, $document, modalService, $controller) {
+
+	$controller('BreweryAddController', {$scope: $scope});
+
+	if (angular.isUndefined(config.activeBrewery)) {
+		$location.path("breweries/");
+	}
+
+	$scope.activeBrewery = config.activeBrewery;
+
+	$scope._update = function (brewery, force, callback) {
+		var result = false;
+
+		if (force || $scope.frmBrewery.$dirty) {
+			if (angular.isUndefined(brewery)) {
+				brewery = $scope.activeBrewery;
+			} else {
+				config.activeBrewery = angular.copy(brewery);
+				config.activeBrewery.reference = brewery;
+			}
+
+			$scope.data.posted = {
+				"name": brewery.name,
+				"url": brewery.url
+			};
+
+			config.activeBrewery.reference.name = $scope.activeBrewery.name;
+			config.activeBrewery.reference.url = $scope.activeBrewery.url;
+			config.activeBrewery.reference.updated_at = new Date();
+
+			if (config.breweries.update === "immediate" || force)
+				rest.put(config.activeBrewery.id, $scope.data, "breweries", config.activeBrewery.name, callback);
+			else {
+				config.activeBrewery.reference.flag = "Updated";
+				save.addOperation("Updated", $scope.update, config.activeBrewery.reference);
+				result = true;
+			}
+
+		} else {
+			result = true;
+		}
+
+		return result;
+	}
+
+};
+},{}],11:[function(require,module,exports){
 module.exports = function ($scope, rest, $timeout, $location, config, $route, save) {
 	$scope.data = {load: false};
 
@@ -309,27 +559,27 @@ module.exports = function ($scope, rest, $timeout, $location, config, $route, sa
 	};
 
 };
-},{}],8:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 var appBreweries = angular.module("BreweriesApp", []).
 	controller("BreweriesController", ["$scope", "rest", "$timeout", "$location", "config", "$route", "save", require("./breweriesController")]).
 	controller("BreweryAddController", ["$scope", "config", "$location", "rest", "save", "$document", "modalService", require("./breweryAddController")]).
 	controller("BreweryUpdateController", ["$scope", "config", "$location", "rest", "save", "$document", "modalService", "$controller", require("./breweryUpdateController")]);
 
 module.exports = angular.module("BreweriesApp").name;
-},{"./breweriesController":7,"./breweryAddController":9,"./breweryUpdateController":10}],9:[function(require,module,exports){
+},{"./breweriesController":11,"./breweryAddController":13,"./breweryUpdateController":14}],13:[function(require,module,exports){
 module.exports = function ($scope, config, $location, rest, save, $document, modalService) {
 
 	$scope.data = {};
-	$scope.data["breweries"] = config.breweries.all;
+	$scope.data["beers"] = config.beers.all;
 
 	var self = this;
 	var selfScope = $scope;
 	$scope.setFormScope = function (form) {
-		$scope.frmBrewery = form;
+		$scope.frmbeer = form;
 	};
 
 	var onRouteChangeOff = $scope.$on('$locationChangeStart', function routeChange(event, newUrl, oldUrl) {
-		if (!$scope.frmBrewery || !$scope.frmBrewery.$dirty || $scope.exit) return;
+		if (!$scope.frmbeer || !$scope.frmbeer.$dirty || $scope.exit) return;
 
 		var alert = modalService.showModal("Sortie", "<b>Attention</b>, si vous continuez, vous perdez les modifications en cours.<br>Enregistrer avant sortie ?", function (value) {
 				selfScope.exit = true;
@@ -349,78 +599,31 @@ module.exports = function ($scope, config, $location, rest, save, $document, mod
 		event.preventDefault();
 	});
 
-	$scope.update = function (brewery, force, callback) {
-		if ($scope._update(brewery, force, callback) == true) {
-			$location.path("breweries");
+	$scope.update = function (beer, force, callback) {
+		if ($scope._update(beer, force, callback) == true) {
+			$location.path("beers");
 		}
 	};
 
-	$scope._update = function (brewery, force, callback) {
+	$scope._update = function (beer, force, callback) {
 		var result = false;
 
-		if (angular.isUndefined(brewery)) {
-			brewery = $scope.activeBrewery;
+		if (angular.isUndefined(beer)) {
+			beer = $scope.activebeer;
 		}
 
 		$scope.data.posted = {
-			"name": brewery.name,
-			"url": brewery.url
+			"name": beer.name,
+			"url": beer.url
 		};
 
-		$scope.data.breweries.push(brewery);
-		brewery.created_at = new Date();
+		$scope.data.beers.push(beer);
+		beer.created_at = new Date();
 
-		if (config.breweries.update === "immediate" || force) {
-			rest.post($scope.data, "breweries", brewery.name, callback);
+		if (config.beers.update === "immediate" || force) {
+			rest.post($scope.data, "beers", beer.name, callback);
 		} else {
-			save.addOperation("New", $scope.update, brewery);
-			result = true;
-		}
-
-		return result;
-	}
-	
-};
-},{}],10:[function(require,module,exports){
-module.exports = function ($scope, config, $location, rest, save, $document, modalService, $controller) {
-
-	$controller('BreweryAddController', {$scope: $scope});
-
-	if (angular.isUndefined(config.activeBrewery)) {
-		$location.path("breweries/");
-	}
-
-	$scope.activeBrewery = config.activeBrewery;
-
-	$scope._update = function (brewery, force, callback) {
-		var result = false;
-
-		if (force || $scope.frmBrewery.$dirty) {
-			if (angular.isUndefined(brewery)) {
-				brewery = $scope.activeBrewery;
-			} else {
-				config.activeBrewery = angular.copy(brewery);
-				config.activeBrewery.reference = brewery;
-			}
-
-			$scope.data.posted = {
-				"name": brewery.name,
-				"url": brewery.url
-			};
-
-			config.activeBrewery.reference.name = $scope.activeBrewery.name;
-			config.activeBrewery.reference.url = $scope.activeBrewery.url;
-			config.activeBrewery.reference.updated_at = new Date();
-
-			if (config.breweries.update === "immediate" || force)
-				rest.put(config.activeBrewery.id, $scope.data, "breweries", config.activeBrewery.name, callback);
-			else {
-				config.activeBrewery.reference.flag = "Updated";
-				save.addOperation("Updated", $scope.update, config.activeBrewery.reference);
-				result = true;
-			}
-
-		} else {
+			save.addOperation("New", $scope.update, beer);
 			result = true;
 		}
 
@@ -428,7 +631,9 @@ module.exports = function ($scope, config, $location, rest, save, $document, mod
 	}
 
 };
-},{}],11:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
+arguments[4][10][0].apply(exports,arguments)
+},{"dup":10}],15:[function(require,module,exports){
 module.exports = function ($routeProvider, $locationProvider, $httpProvider) {
 
 	//$httpProvider.defaults.useXDomain = true;
@@ -451,6 +656,9 @@ module.exports = function ($routeProvider, $locationProvider, $httpProvider) {
 		}).when('/breweries/update', {
 			templateUrl: 'templates/breweries/breweryForm.html',
 			controller: 'BreweryUpdateController'
+		}).when('/beers', {
+			templateUrl: 'templates/beers/main.html',
+			controller: 'BeersController'
 		}).when('/saves', {
 			templateUrl: 'templates/saveMain.html',
 			controller: 'SaveController'
@@ -466,7 +674,7 @@ module.exports = function ($routeProvider, $locationProvider, $httpProvider) {
 	}
 
 };
-},{}],12:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 module.exports = function ($scope, config, $location) {
 
 	$scope.config = angular.copy(config);
@@ -479,6 +687,7 @@ module.exports = function ($scope, config, $location) {
 		if ($scope.frmConfig.$dirty) {
 			config.server = $scope.config.server;
 			config.breweries = $scope.config.breweries;
+			config.beers = $scope.config.beers;
 		}
 
 		$location.path("/");
@@ -489,26 +698,32 @@ module.exports = function ($scope, config, $location) {
 	};
 
 };
-},{}],13:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 module.exports = function () {
-	var factory = {breweries: {}, server: {}};
+	var factory = {breweries: {}, server: {}, beers: {}};
 
 	factory.activeBrewery = undefined;
+
 	factory.breweries.loaded = false;
 	factory.breweries.refresh = "all";//all|ask
 	factory.breweries.update = "immediate";//deffered|immediate
+
+	factory.beers.loaded = false;
+	factory.beers.refresh = "all";//all|ask
+	factory.beers.update = "immediate";//deffered|immediate
+
 	factory.server.privateToken = "";
 	factory.server.restServerUrl = "http://127.0.0.1/rest-open-beer/";
 	factory.server.force = false;
 
 	return factory;
 };
-},{}],14:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 var configApp = angular.module("ConfigApp", []).
 	controller("ConfigController", ["$scope", "config", "$location", require("./configController")]);
 
 module.exports = configApp.name;
-},{"./configController":12}],15:[function(require,module,exports){
+},{"./configController":16}],19:[function(require,module,exports){
 module.exports = function ($scope, $location, save, $window) {
 
 	$scope.hasOperations = function () {
@@ -533,7 +748,7 @@ module.exports = function ($scope, $location, save, $window) {
 	});
 
 };
-},{}],16:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 module.exports = function ($scope, $location, save) {
 
 	$scope.data = save;
@@ -581,7 +796,7 @@ module.exports = function ($scope, $location, save) {
 	};
 
 };
-},{}],17:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 module.exports = function ($http, $resource, $location, restConfig, $sce) {
 	var self = this;
 
@@ -712,7 +927,7 @@ module.exports = function ($http, $resource, $location, restConfig, $sce) {
 	};
 
 };
-},{}],18:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 module.exports = function (rest, config, $route) {
 
 	var self = this;
@@ -760,4 +975,4 @@ module.exports = function (rest, config, $route) {
 	}
 
 };
-},{}]},{},[6,15,11,7,8,9,10,12,13,14,16,17,18,1,2,3,4,5]);
+},{}]},{},[6]);

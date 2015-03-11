@@ -1,16 +1,16 @@
 module.exports = function ($scope, config, $location, rest, save, $document, modalService) {
 
 	$scope.data = {};
-	$scope.data["beers"] = config.beers.all;
+	$scope.data["breweries"] = config.breweries.all;
 
 	var self = this;
 	var selfScope = $scope;
 	$scope.setFormScope = function (form) {
-		$scope.frmbeer = form;
+		$scope.frmBrewery = form;
 	};
 
 	var onRouteChangeOff = $scope.$on('$locationChangeStart', function routeChange(event, newUrl, oldUrl) {
-		if (!$scope.frmbeer || !$scope.frmbeer.$dirty || $scope.exit) return;
+		if (!$scope.frmBrewery || !$scope.frmBrewery.$dirty || $scope.exit) return;
 
 		var alert = modalService.showModal("Sortie", "<b>Attention</b>, si vous continuez, vous perdez les modifications en cours.<br>Enregistrer avant sortie ?", function (value) {
 				selfScope.exit = true;
@@ -30,35 +30,35 @@ module.exports = function ($scope, config, $location, rest, save, $document, mod
 		event.preventDefault();
 	});
 
-	$scope.update = function (beer, force, callback) {
-		if ($scope._update(beer, force, callback) == true) {
-			$location.path("beers");
+	$scope.update = function (brewery, force, callback) {
+		if ($scope._update(brewery, force, callback) == true) {
+			$location.path("breweries");
 		}
 	};
 
-	$scope._update = function (beer, force, callback) {
+	$scope._update = function (brewery, force, callback) {
 		var result = false;
 
-		if (angular.isUndefined(beer)) {
-			beer = $scope.activebeer;
+		if (angular.isUndefined(brewery)) {
+			brewery = $scope.activeBrewery;
 		}
 
 		$scope.data.posted = {
-			"name": beer.name,
-			"url": beer.url
+			"name": brewery.name,
+			"url": brewery.url
 		};
 
-		$scope.data.beers.push(beer);
-		beer.created_at = new Date();
+		$scope.data.breweries.push(brewery);
+		brewery.created_at = new Date();
 
-		if (config.beers.update === "immediate" || force) {
-			rest.post($scope.data, "beers", beer.name, callback);
+		if (config.breweries.update === "immediate" || force) {
+			rest.post($scope.data, "breweries", brewery.name, callback);
 		} else {
-			save.addOperation("New", $scope.update, beer);
+			save.addOperation("New", $scope.update, brewery);
 			result = true;
 		}
 
 		return result;
 	}
-
+	
 };
