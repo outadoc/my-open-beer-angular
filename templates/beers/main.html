@@ -17,10 +17,14 @@
 		<a class="btn btn-default" data-ng-show="showUpdate()" data-ng-click="edit()">Modifier</a>
 	</div>
 	<div class="btn-group" role="group" aria-label="Supprimer">
-		<a class="btn btn-default" data-ng-show="countSelected()>0" data-ng-click="remove()"><data-ng-pluralize count="countSelected()" when="{1: 'Supprimer la bière','other':'Supprimer les bières ({})'}"></span></a>
+		<a class="btn btn-default" data-ng-show="countSelected()>0" data-ng-click="remove()">
+            <data-ng-pluralize count="countSelected()" when="{1: 'Supprimer la bière','other':'Supprimer les bières ({})'}"></data-ng-pluralize>
+        </a>
 	</div>
 	<div class="btn-group" role="group" aria-label="count">
-		<div class="btn"><data-ng-pluralize count="results.length" when="{0: 'no beer',1: 'One beer','other':'{} beers'}"></data-ng-pluralize></div>
+		<div class="btn">
+            <data-ng-pluralize count="results.length" when="{0: 'no beer',1: 'One beer','other':'{} beers'}"></data-ng-pluralize>
+        </div>
 	</div>
 	<div class="btn-group" role="group" aria-label="false" data-ng-show="data.load">
 		<img class="btn" src="img/loader.gif">
