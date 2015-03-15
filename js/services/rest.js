@@ -7,14 +7,15 @@ module.exports=function($http,$resource,$location,restConfig,$sce) {
 		return '?token='+restConfig.server.privateToken+'&force='+restConfig.server.force;
 	}
 	this.headers={ 'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
-	    	'Accept': 'application/json'
-	    	};
+			'Accept': 'application/json'
+	};
+	
 	this.getAll=function(response,what){
 		var request = $http({
-		    method: "GET",
-		    url: restConfig.server.restServerUrl+what+this.getParams(),
-		    headers: {'Accept': 'application/json'},
-		    callback: 'JSON_CALLBACK'
+			method: "GET",
+			url: restConfig.server.restServerUrl+what+this.getParams(),
+			headers: {'Accept': 'application/json'},
+			callback: 'JSON_CALLBACK'
 		});
 		request.success(function(data, status, headers, config) {
 			response[what]=data;
@@ -25,10 +26,6 @@ module.exports=function($http,$resource,$location,restConfig,$sce) {
 			self.addMessage({type: "danger", content: "Erreur de connexion au serveur, statut de la réponse : "+status});
 			console.log("Erreur de connexion au serveur, statut de la réponse : "+status);
 		});
-	};
-	this.addMessage=function(message){
-		content=$sce.trustAsHtml(message.content);
-		self.messages.push({"type":message.type,"content":content});
 	};
 	
 	this.post=function(response,what,name,callback){
@@ -61,10 +58,10 @@ module.exports=function($http,$resource,$location,restConfig,$sce) {
 		$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 		$http.defaults.headers.post["Accept"] = "text/plain";
 		var request = $http({
-		    method: "PUT",
-		    url: restConfig.server.restServerUrl+what+'/'+id+this.getParams(),
-		    data: response.posted,
-		    headers: self.headers
+			method: "PUT",
+			url: restConfig.server.restServerUrl+what+'/'+id+this.getParams(),
+			data: response.posted,
+			headers: self.headers
 		});
 		request.success(function(data, status, headers, config) {
 			self.addMessage(data.message);
@@ -94,6 +91,11 @@ module.exports=function($http,$resource,$location,restConfig,$sce) {
 		}).error(function(data, status, headers, config){
 			self.addMessage({type: "warning", content: "Erreur de connexion au serveur, statut de la réponse : "+status+"<br>"+data.message});
 		});
+	};
+
+	this.addMessage=function(message){
+		content=$sce.trustAsHtml(message.content);
+		self.messages.push({"type":message.type,"content":content});
 	};
 	
 	this.clearMessages=function(){
