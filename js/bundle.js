@@ -1,4 +1,4 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/addons/drag.js":[function(require,module,exports){
 module.exports=function() {
 	return {
 		restrict: 'A',
@@ -8,7 +8,7 @@ module.exports=function() {
 		}
 	};
 };
-},{}],2:[function(require,module,exports){
+},{}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/addons/modal.js":[function(require,module,exports){
 module.exports=function($q) {
 	return {
 		restrict:'E',
@@ -62,7 +62,7 @@ module.exports=function($q) {
 		}
 	};
 };
-},{}],3:[function(require,module,exports){
+},{}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/addons/modalService.js":[function(require,module,exports){
 module.exports=function($q,$compile,$rootScope,$sce){
 	
     this.showModal=function(title,content,then){
@@ -85,7 +85,7 @@ module.exports=function($q,$compile,$rootScope,$sce){
     	this.scope.showDialog=true;
     }
 };
-},{}],4:[function(require,module,exports){
+},{}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/addons/notDeletedFilter.js":[function(require,module,exports){
 module.exports= function() {
 	return function( items) {
         var filtered = [];
@@ -97,7 +97,7 @@ module.exports= function() {
         return filtered;
     };
 };
-},{}],5:[function(require,module,exports){
+},{}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/addons/sortBy.js":[function(require,module,exports){
 module.exports=function(){
 	return {
 		restrict: "A",
@@ -136,10 +136,11 @@ module.exports=function(){
 		}
 	};
 };
-},{}],6:[function(require,module,exports){
+},{}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/app.js":[function(require,module,exports){
 angular.module("mainApp", ["ngRoute", "ngResource", "ngAnimate", require("./breweries/breweriesModule"), require("./beers/beersModule"), require("./config/configModule")]).
 	controller("MainController", ["$scope", "$location", "save", "$window", require("./mainController")]).
 	controller("SaveController", ["$scope", "$location", "save", require("./save/saveController")]).
+	controller("LoginController", ["$scope", "$location", "rest", require("./login/loginController")]).
 	service("rest", ["$http", "$resource", "$location", "config", "$sce", require("./services/rest")]).
 	service("save", ["rest", "config", "$route", require("./services/save")]).
 	config(["$routeProvider", "$locationProvider", "$httpProvider", require("./config")]).
@@ -148,7 +149,7 @@ angular.module("mainApp", ["ngRoute", "ngResource", "ngAnimate", require("./brew
 	directive("Drag", require("./addons/drag")).
 	directive("bsModal", ["$q", require("./addons/modal")]).
 	service("modalService", ["$q", "$compile", "$rootScope", "$sce", require("./addons/modalService")]).
-	run(['$rootScope', '$location', '$routeParams', function ($rootScope, $location, $routeParams) {
+	run(['$rootScope', '$location', '$routeParams', 'config', function ($rootScope, $location, $routeParams, config) {
 
 		$rootScope.$on('$routeChangeSuccess', function (e, current, pre) {
 			var paths = $location.path().split("/");
@@ -175,10 +176,20 @@ angular.module("mainApp", ["ngRoute", "ngResource", "ngAnimate", require("./brew
 			$rootScope.paths = result;
 		});
 
+		$rootScope.$on("$routeChangeStart", function (event, next, current) {
+			if (config.server.currentUser == null) {
+				// no logged user, we should be going to #login
+				if (next.templateUrl != "templates/login.html") {
+					// not going to #login, we should redirect now
+					$location.path("/login");
+				}
+			}
+		});
+
 	}]
 ).factory("config", require("./config/configFactory"));
 
-},{"./addons/drag":1,"./addons/modal":2,"./addons/modalService":3,"./addons/notDeletedFilter":4,"./addons/sortBy":5,"./beers/beersModule":9,"./breweries/breweriesModule":12,"./config":15,"./config/configFactory":17,"./config/configModule":18,"./mainController":19,"./save/saveController":20,"./services/rest":21,"./services/save":22}],7:[function(require,module,exports){
+},{"./addons/drag":"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/addons/drag.js","./addons/modal":"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/addons/modal.js","./addons/modalService":"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/addons/modalService.js","./addons/notDeletedFilter":"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/addons/notDeletedFilter.js","./addons/sortBy":"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/addons/sortBy.js","./beers/beersModule":"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/beers/beersModule.js","./breweries/breweriesModule":"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/breweries/breweriesModule.js","./config":"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/config.js","./config/configFactory":"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/config/configFactory.js","./config/configModule":"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/config/configModule.js","./login/loginController":"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/login/loginController.js","./mainController":"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/mainController.js","./save/saveController":"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/save/saveController.js","./services/rest":"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/services/rest.js","./services/save":"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/services/save.js"}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/beers/beersAddController.js":[function(require,module,exports){
 module.exports = function ($scope, config, $location, rest, save, $document, modalService) {
 
 	$scope.data = {};
@@ -245,7 +256,7 @@ module.exports = function ($scope, config, $location, rest, save, $document, mod
 	}
 
 };
-},{}],8:[function(require,module,exports){
+},{}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/beers/beersController.js":[function(require,module,exports){
 module.exports = function ($scope, rest, $timeout, $location, config, $route, save) {
 
 	$scope.data = {load: false};
@@ -386,14 +397,14 @@ module.exports = function ($scope, rest, $timeout, $location, config, $route, sa
 	};
 
 };
-},{}],9:[function(require,module,exports){
+},{}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/beers/beersModule.js":[function(require,module,exports){
 var appBeers = angular.module("BeersApp", []).
 	controller("BeersController", ["$scope", "rest", "$timeout", "$location", "config", "$route", "save", require("./beersController")]).
 	controller("BeersAddController", ["$scope", "config", "$location", "rest", "save", "$document", "modalService", require("./beersAddController")]).
 	controller("BeersUpdateController", ["$scope", "config", "$location", "rest", "save", "$document", "modalService", "$controller", require("./beersUpdateController")]);
 
 module.exports = angular.module("BeersApp").name;
-},{"./beersAddController":7,"./beersController":8,"./beersUpdateController":10}],10:[function(require,module,exports){
+},{"./beersAddController":"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/beers/beersAddController.js","./beersController":"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/beers/beersController.js","./beersUpdateController":"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/beers/beersUpdateController.js"}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/beers/beersUpdateController.js":[function(require,module,exports){
 module.exports = function ($scope, config, $location, rest, save, $document, modalService, $controller) {
 
 	$controller('BeersAddController', {$scope: $scope});
@@ -442,7 +453,7 @@ module.exports = function ($scope, config, $location, rest, save, $document, mod
 	}
 
 };
-},{}],11:[function(require,module,exports){
+},{}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/breweries/breweriesController.js":[function(require,module,exports){
 module.exports = function ($scope, rest, $timeout, $location, config, $route, save) {
 	$scope.data = {load: false};
 
@@ -573,14 +584,14 @@ module.exports = function ($scope, rest, $timeout, $location, config, $route, sa
 	};
 
 };
-},{}],12:[function(require,module,exports){
+},{}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/breweries/breweriesModule.js":[function(require,module,exports){
 var appBreweries = angular.module("BreweriesApp", []).
 	controller("BreweriesController", ["$scope", "rest", "$timeout", "$location", "config", "$route", "save", require("./breweriesController")]).
 	controller("BreweryAddController", ["$scope", "config", "$location", "rest", "save", "$document", "modalService", require("./breweryAddController")]).
 	controller("BreweryUpdateController", ["$scope", "config", "$location", "rest", "save", "$document", "modalService", "$controller", require("./breweryUpdateController")]);
 
 module.exports = angular.module("BreweriesApp").name;
-},{"./breweriesController":11,"./breweryAddController":13,"./breweryUpdateController":14}],13:[function(require,module,exports){
+},{"./breweriesController":"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/breweries/breweriesController.js","./breweryAddController":"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/breweries/breweryAddController.js","./breweryUpdateController":"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/breweries/breweryUpdateController.js"}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/breweries/breweryAddController.js":[function(require,module,exports){
 module.exports = function ($scope, config, $location, rest, save, $document, modalService) {
 
 	$scope.data = {};
@@ -643,7 +654,7 @@ module.exports = function ($scope, config, $location, rest, save, $document, mod
 	}
 
 };
-},{}],14:[function(require,module,exports){
+},{}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/breweries/breweryUpdateController.js":[function(require,module,exports){
 module.exports = function ($scope, config, $location, rest, save, $document, modalService, $controller) {
 
 	$controller('BreweryAddController', {$scope: $scope});
@@ -690,7 +701,7 @@ module.exports = function ($scope, config, $location, rest, save, $document, mod
 	}
 
 };
-},{}],15:[function(require,module,exports){
+},{}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/config.js":[function(require,module,exports){
 module.exports = function ($routeProvider, $locationProvider, $httpProvider) {
 
 	//$httpProvider.defaults.useXDomain = true;
@@ -731,6 +742,9 @@ module.exports = function ($routeProvider, $locationProvider, $httpProvider) {
 		}).when('/config', {
 			templateUrl: 'templates/config.html',
 			controller: 'ConfigController'
+		}).when('/login', {
+			templateUrl: 'templates/login.html',
+			controller: 'LoginController'
 		}).otherwise({
 			redirectTo: '/'
 		});
@@ -740,7 +754,7 @@ module.exports = function ($routeProvider, $locationProvider, $httpProvider) {
 	}
 
 };
-},{}],16:[function(require,module,exports){
+},{}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/config/configController.js":[function(require,module,exports){
 module.exports = function ($scope, config, $location) {
 
 	$scope.config = angular.copy(config);
@@ -764,7 +778,7 @@ module.exports = function ($scope, config, $location) {
 	};
 
 };
-},{}],17:[function(require,module,exports){
+},{}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/config/configFactory.js":[function(require,module,exports){
 module.exports = function () {
 	var factory = {breweries: {}, server: {}, beers: {}};
 
@@ -778,18 +792,39 @@ module.exports = function () {
 	factory.beers.refresh = "all";//all|ask
 	factory.beers.update = "immediate";//deffered|immediate
 
-	factory.server.privateToken = "";
+	factory.server.currentUser = null;
+	factory.server.privateToken = null;
 	factory.server.restServerUrl = "http://localhost/dut/S4/js_framework/rest-open-beer/";
 	factory.server.force = false;
 
 	return factory;
 };
-},{}],18:[function(require,module,exports){
+},{}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/config/configModule.js":[function(require,module,exports){
 var configApp = angular.module("ConfigApp", []).
 	controller("ConfigController", ["$scope", "config", "$location", require("./configController")]);
 
 module.exports = configApp.name;
-},{"./configController":16}],19:[function(require,module,exports){
+},{"./configController":"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/config/configController.js"}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/login/loginController.js":[function(require,module,exports){
+module.exports = function ($scope, $location, rest) {
+
+	$scope.wrongPassword = false;
+
+	$scope.login = function () {
+		rest.login($scope.email, $scope.password, function (success) {
+			if(success) {
+				console.log("Connection successful, logged in as " + email);
+				$scope.wrongPassword = false;
+
+				$location.path("/home");
+			} else {
+				console.error("Connection failed: could not authenticate with server");
+				$scope.wrongPassword = true;
+			}
+		});
+	};
+
+};
+},{}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/mainController.js":[function(require,module,exports){
 module.exports = function ($scope, $location, save, $window) {
 
 	$scope.hasOperations = function () {
@@ -814,7 +849,7 @@ module.exports = function ($scope, $location, save, $window) {
 	});
 
 };
-},{}],20:[function(require,module,exports){
+},{}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/save/saveController.js":[function(require,module,exports){
 module.exports = function ($scope, $location, save) {
 
 	$scope.data = save;
@@ -862,7 +897,7 @@ module.exports = function ($scope, $location, save) {
 	};
 
 };
-},{}],21:[function(require,module,exports){
+},{}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/services/rest.js":[function(require,module,exports){
 module.exports = function ($http, $resource, $location, restConfig, $sce) {
 	var self = this;
 
@@ -988,12 +1023,48 @@ module.exports = function ($http, $resource, $location, restConfig, $sce) {
 		});
 	};
 
+	this.login = function (email, password, callback) {
+		$http({
+			method: "POST",
+			url: restConfig.server.restServerUrl + 'user/connect',
+			headers: this.headers,
+			callback: 'JSON_CALLBACK',
+			data: {
+				mail: email,
+				password: password
+			},
+			transformRequest: function(obj) {
+				var str = [];
+				for(var p in obj)
+					str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+				return str.join("&");
+			}
+
+		}).success(function (data, status, headers, config) {
+			if(data.connected === true) {
+				restConfig.server.privateToken = data.token;
+				restConfig.server.currentUser = email;
+			}
+
+			callback(data.connected === true);
+
+		}).error(function (data, status, headers, config) {
+			self.addMessage({
+				type: "danger",
+				content: "Erreur de connexion au serveur, statut de la réponse : " + status
+			});
+
+			console.log("Erreur de connexion au serveur, statut de la réponse : " + status);
+			callback(false);
+		});
+	};
+
 	this.clearMessages = function () {
 		self.messages.length = 0;
 	};
 
 };
-},{}],22:[function(require,module,exports){
+},{}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/services/save.js":[function(require,module,exports){
 module.exports = function (rest, config, $route) {
 
 	var self = this;
@@ -1041,4 +1112,4 @@ module.exports = function (rest, config, $route) {
 	}
 
 };
-},{}]},{},[6]);
+},{}]},{},["/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/app.js"]);
