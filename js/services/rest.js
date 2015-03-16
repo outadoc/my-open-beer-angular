@@ -5,7 +5,7 @@ module.exports = function ($http, $resource, $location, restConfig, $sce) {
 		this.messages = [];
 
 	this.getParams = function () {
-		return '?token=' + restConfig.server.privateToken + '&force=' + restConfig.server.force;
+		return '?token=' + restConfig.auth.privateToken + '&force=' + restConfig.server.force;
 	};
 
 	this.headers = {
@@ -142,8 +142,8 @@ module.exports = function ($http, $resource, $location, restConfig, $sce) {
 
 		}).success(function (data, status, headers, config) {
 			if(data.connected === true) {
-				restConfig.server.privateToken = data.token;
-				restConfig.server.currentUser = email;
+				restConfig.auth.privateToken = data.token;
+				restConfig.auth.currentUser = email;
 			}
 
 			callback(data.connected === true);

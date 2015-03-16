@@ -38,11 +38,13 @@ angular.module("mainApp", ["ngRoute", "ngResource", "ngAnimate", require("./brew
 		});
 
 		$rootScope.$on("$routeChangeStart", function (event, next, current) {
-			if (config.server.currentUser == null) {
-				// no logged user, we should be going to #login
-				if (next.templateUrl != "templates/login.html") {
-					// not going to #login, we should redirect now
-					$location.path("/login");
+			// if no one is logged in, we should check if we're allowed to move there
+			if (config.auth.privateToken == null) {
+				for(var i = 0; i < config.routes.privateTemplates.length; i++) {
+					if(next.templateUrl == "templates" + config.routes.privateTemplates[i]) {
+						// if we're not allowed, redirect
+						$location.path("/login");
+					}
 				}
 			}
 		});
