@@ -38,6 +38,9 @@ module.exports = function ($routeProvider, $locationProvider, $httpProvider) {
 		}).when('/config', {
 			templateUrl: 'templates/config.html',
 			controller: 'ConfigController'
+		}).when('/login', {
+			templateUrl: 'templates/login.html',
+			controller: 'LoginController'
 		}).otherwise({
 			redirectTo: '/'
 		});

@@ -123,6 +123,42 @@ module.exports = function ($http, $resource, $location, restConfig, $sce) {
 		});
 	};
 
+	this.login = function (email, password, callback) {
+		$http({
+			method: "POST",
+			url: restConfig.server.restServerUrl + 'user/connect',
+			headers: this.headers,
+			callback: 'JSON_CALLBACK',
+			data: {
+				mail: email,
+				password: password
+			},
+			transformRequest: function(obj) {
+				var str = [];
+				for(var p in obj)
+					str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+				return str.join("&");
+			}
+
+		}).success(function (data, status, headers, config) {
+			if(data.connected === true) {
+				restConfig.server.privateToken = data.token;
+				restConfig.server.currentUser = email;
+			}
+
+			callback(data.connected === true);
+
+		}).error(function (data, status, headers, config) {
+			self.addMessage({
+				type: "danger",
+				content: "Erreur de connexion au serveur, statut de la réponse : " + status
+			});
+
+			console.log("Erreur de connexion au serveur, statut de la réponse : " + status);
+			callback(false);
+		});
+	};
+
 	this.clearMessages = function () {
 		self.messages.length = 0;
 	};
