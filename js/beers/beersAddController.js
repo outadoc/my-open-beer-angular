@@ -53,7 +53,7 @@ module.exports = function ($scope, config, $location, rest, save, $document, mod
 		$scope.data.beers.push(beer);
 		beer.created_at = new Date();
 
-		if (config.beers.update === "immediate" || force) {
+		if (config.beers.mode === "online" || force) {
 			rest.post($scope.data, "beers", beer.name, callback);
 		} else {
 			save.addOperation("New", $scope.update, beer);

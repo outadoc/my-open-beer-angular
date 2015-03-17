@@ -28,7 +28,7 @@ module.exports = function ($scope, config, $location, rest, save, $document, mod
 			config.activeBrewery.reference.url = $scope.activeBrewery.url;
 			config.activeBrewery.reference.updated_at = new Date();
 
-			if (config.breweries.update === "immediate" || force)
+			if (config.breweries.mode === "online" || force)
 				rest.put(config.activeBrewery.id, $scope.data, "breweries", config.activeBrewery.name, callback);
 			else {
 				config.activeBrewery.reference.flag = "Updated";

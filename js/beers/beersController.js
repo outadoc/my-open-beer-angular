@@ -6,7 +6,7 @@ module.exports = function ($scope, rest, $timeout, $location, config, $route, sa
 
 	$scope.messages = rest.messages;
 
-	if (config.beers.refresh === "all" || !config.beers.loaded) {
+	if (config.beers.mode === "online" || !config.beers.loaded) {
 		$scope.data.load = true;
 		rest.getAll($scope.data, "beers");
 		config.beers.loaded = true;
@@ -31,11 +31,11 @@ module.exports = function ($scope, rest, $timeout, $location, config, $route, sa
 	};
 
 	$scope.refreshOnAsk = function () {
-		return config.beers.refresh == 'ask';
+		return config.beers.mode == 'offline';
 	};
 
 	$scope.defferedUpdate = function () {
-		return config.beers.update == 'deffered';
+		return config.beers.mode == 'offline';
 	};
 
 	$scope.setActive = function (beer) {
@@ -109,7 +109,7 @@ module.exports = function ($scope, rest, $timeout, $location, config, $route, sa
 		$scope.data.beers.push(beer);
 		beer.created_at = new Date();
 
-		if (config.beers.update === "immediate" || force) {
+		if (config.beers.mode === "online" || force) {
 			rest.post($scope.data, "beers", beer.name, callback);
 		} else {
 			save.addOperation("New", $scope.update, beer);
@@ -128,7 +128,7 @@ module.exports = function ($scope, rest, $timeout, $location, config, $route, sa
 	};
 
 	$scope.removeOne = function (beer, force, callback) {
-		if (config.beers.update === "immediate" || force) {
+		if (config.beers.mode === "online" || force) {
 			beer.deleted = true;
 			rest.remove(beer, "beers", callback);
 		} else {

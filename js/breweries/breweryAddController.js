@@ -50,7 +50,7 @@ module.exports = function ($scope, config, $location, rest, save, $document, mod
 		$scope.data.breweries.push(brewery);
 		brewery.created_at = new Date();
 
-		if (config.breweries.update === "immediate" || force) {
+		if (config.breweries.mode === "online" || force) {
 			rest.post($scope.data, "breweries", brewery.name, callback);
 		} else {
 			save.addOperation("New", $scope.update, brewery);

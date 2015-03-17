@@ -8,7 +8,7 @@ module.exports = function ($scope, $location, rest) {
 				console.log("Connection successful, logged in as " + email);
 				$scope.wrongPassword = false;
 
-				$location.path("/home");
+				$location.path("/");
 			} else {
 				console.error("Connection failed: could not authenticate with server");
 				$scope.wrongPassword = true;

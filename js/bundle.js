@@ -247,7 +247,7 @@ module.exports = function ($scope, config, $location, rest, save, $document, mod
 		$scope.data.beers.push(beer);
 		beer.created_at = new Date();
 
-		if (config.beers.update === "immediate" || force) {
+		if (config.beers.mode === "online" || force) {
 			rest.post($scope.data, "beers", beer.name, callback);
 		} else {
 			save.addOperation("New", $scope.update, beer);
@@ -267,7 +267,7 @@ module.exports = function ($scope, rest, $timeout, $location, config, $route, sa
 
 	$scope.messages = rest.messages;
 
-	if (config.beers.refresh === "all" || !config.beers.loaded) {
+	if (config.beers.mode === "online" || !config.beers.loaded) {
 		$scope.data.load = true;
 		rest.getAll($scope.data, "beers");
 		config.beers.loaded = true;
@@ -292,11 +292,11 @@ module.exports = function ($scope, rest, $timeout, $location, config, $route, sa
 	};
 
 	$scope.refreshOnAsk = function () {
-		return config.beers.refresh == 'ask';
+		return config.beers.mode == 'offline';
 	};
 
 	$scope.defferedUpdate = function () {
-		return config.beers.update == 'deffered';
+		return config.beers.mode == 'offline';
 	};
 
 	$scope.setActive = function (beer) {
@@ -370,7 +370,7 @@ module.exports = function ($scope, rest, $timeout, $location, config, $route, sa
 		$scope.data.beers.push(beer);
 		beer.created_at = new Date();
 
-		if (config.beers.update === "immediate" || force) {
+		if (config.beers.mode === "online" || force) {
 			rest.post($scope.data, "beers", beer.name, callback);
 		} else {
 			save.addOperation("New", $scope.update, beer);
@@ -389,7 +389,7 @@ module.exports = function ($scope, rest, $timeout, $location, config, $route, sa
 	};
 
 	$scope.removeOne = function (beer, force, callback) {
-		if (config.beers.update === "immediate" || force) {
+		if (config.beers.mode === "online" || force) {
 			beer.deleted = true;
 			rest.remove(beer, "beers", callback);
 		} else {
@@ -439,7 +439,7 @@ module.exports = function ($scope, config, $location, rest, save, $document, mod
 			config.activeBeer.reference.photo = $scope.activeBeer.photo;
 			config.activeBeer.reference.updated_at = new Date();
 
-			if (config.beers.update === "immediate" || force)
+			if (config.beers.mode === "online" || force)
 				rest.put(config.activeBeer.id, $scope.data, "beers", config.activeBeer.name, callback);
 			else {
 				config.activeBeer.reference.flag = "Updated";
@@ -463,7 +463,7 @@ module.exports = function ($scope, rest, $timeout, $location, config, $route, sa
 
 	$scope.messages = rest.messages;
 
-	if (config.breweries.refresh === "all" || !config.breweries.loaded) {
+	if (config.breweries.mode === "online" || !config.breweries.loaded) {
 		$scope.data.load = true;
 		rest.getAll($scope.data, "breweries");
 		config.breweries.loaded = true;
@@ -488,11 +488,11 @@ module.exports = function ($scope, rest, $timeout, $location, config, $route, sa
 	};
 
 	$scope.refreshOnAsk = function () {
-		return config.breweries.refresh == 'ask';
+		return config.breweries.mode == 'offline';
 	};
 
 	$scope.defferedUpdate = function () {
-		return config.breweries.update == 'deffered';
+		return config.breweries.mode == 'offline';
 	};
 
 	$scope.setActive = function (brewery) {
@@ -558,7 +558,7 @@ module.exports = function ($scope, rest, $timeout, $location, config, $route, sa
 		};
 		$scope.data.breweries.push(brewery);
 		brewery.created_at = new Date();
-		if (config.breweries.update === "immediate" || force) {
+		if (config.breweries.mode === "online" || force) {
 			rest.post($scope.data, "breweries", brewery.name, callback);
 		} else {
 			save.addOperation("New", $scope.update, brewery);
@@ -576,7 +576,7 @@ module.exports = function ($scope, rest, $timeout, $location, config, $route, sa
 	};
 
 	$scope.removeOne = function (brewery, force, callback) {
-		if (config.breweries.update === "immediate" || force) {
+		if (config.breweries.mode === "online" || force) {
 			brewery.deleted = true;
 			rest.remove(brewery, "breweries", callback);
 		} else {
@@ -646,7 +646,7 @@ module.exports = function ($scope, config, $location, rest, save, $document, mod
 		$scope.data.breweries.push(brewery);
 		brewery.created_at = new Date();
 
-		if (config.breweries.update === "immediate" || force) {
+		if (config.breweries.mode === "online" || force) {
 			rest.post($scope.data, "breweries", brewery.name, callback);
 		} else {
 			save.addOperation("New", $scope.update, brewery);
@@ -687,7 +687,7 @@ module.exports = function ($scope, config, $location, rest, save, $document, mod
 			config.activeBrewery.reference.url = $scope.activeBrewery.url;
 			config.activeBrewery.reference.updated_at = new Date();
 
-			if (config.breweries.update === "immediate" || force)
+			if (config.breweries.mode === "online" || force)
 				rest.put(config.activeBrewery.id, $scope.data, "breweries", config.activeBrewery.name, callback);
 			else {
 				config.activeBrewery.reference.flag = "Updated";
@@ -772,11 +772,11 @@ module.exports = function ($scope, config, $location) {
 			config.beers = $scope.config.beers;
 		}
 
-		$location.path("/");
+		$location.path("/home");
 	};
 
 	$scope.cancel = function () {
-		$location.path("/");
+		$location.path("/home");
 	};
 
 };
@@ -787,14 +787,12 @@ module.exports = function () {
 	factory.activeBrewery = undefined;
 
 	factory.breweries.loaded = false;
-	factory.breweries.refresh = "all";//all|ask
-	factory.breweries.update = "immediate";//deffered|immediate
+	factory.breweries.mode = "online"; // online|offline
 
 	factory.beers.loaded = false;
-	factory.beers.refresh = "all";//all|ask
-	factory.beers.update = "immediate";//deffered|immediate
+	factory.beers.mode = "online"; // online|offline
 
-	factory.server.restServerUrl = "http://localhost/dut/S4/js_framework/rest-open-beer/";
+	factory.server.restServerUrl = "http://127.0.0.1/rest-open-beer/";
 	factory.server.force = false;
 
 	factory.auth.currentUser = null;
@@ -820,7 +818,7 @@ module.exports = function ($scope, $location, rest) {
 				console.log("Connection successful, logged in as " + email);
 				$scope.wrongPassword = false;
 
-				$location.path("/home");
+				$location.path("/");
 			} else {
 				console.error("Connection failed: could not authenticate with server");
 				$scope.wrongPassword = true;
@@ -831,7 +829,7 @@ module.exports = function ($scope, $location, rest) {
 };
 },{}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/mainController.js":[function(require,module,exports){
 module.exports = function ($scope, $location, save, $window, config) {
-	
+
 	$scope.hasOperations = function () {
 		return save.operations.length > 0;
 	};
@@ -872,8 +870,7 @@ module.exports = function ($scope, $location, save, $window, config) {
 
 	$scope.getUsername = function() {
 		return config.auth.currentUser;
-	}
-	;
+	};
 
 };
 },{}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/save/saveController.js":[function(require,module,exports){

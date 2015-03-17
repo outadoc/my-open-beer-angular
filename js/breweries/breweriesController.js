@@ -5,7 +5,7 @@ module.exports = function ($scope, rest, $timeout, $location, config, $route, sa
 
 	$scope.messages = rest.messages;
 
-	if (config.breweries.refresh === "all" || !config.breweries.loaded) {
+	if (config.breweries.mode === "online" || !config.breweries.loaded) {
 		$scope.data.load = true;
 		rest.getAll($scope.data, "breweries");
 		config.breweries.loaded = true;
@@ -30,11 +30,11 @@ module.exports = function ($scope, rest, $timeout, $location, config, $route, sa
 	};
 
 	$scope.refreshOnAsk = function () {
-		return config.breweries.refresh == 'ask';
+		return config.breweries.mode == 'offline';
 	};
 
 	$scope.defferedUpdate = function () {
-		return config.breweries.update == 'deffered';
+		return config.breweries.mode == 'offline';
 	};
 
 	$scope.setActive = function (brewery) {
@@ -100,7 +100,7 @@ module.exports = function ($scope, rest, $timeout, $location, config, $route, sa
 		};
 		$scope.data.breweries.push(brewery);
 		brewery.created_at = new Date();
-		if (config.breweries.update === "immediate" || force) {
+		if (config.breweries.mode === "online" || force) {
 			rest.post($scope.data, "breweries", brewery.name, callback);
 		} else {
 			save.addOperation("New", $scope.update, brewery);
@@ -118,7 +118,7 @@ module.exports = function ($scope, rest, $timeout, $location, config, $route, sa
 	};
 
 	$scope.removeOne = function (brewery, force, callback) {
-		if (config.breweries.update === "immediate" || force) {
+		if (config.breweries.mode === "online" || force) {
 			brewery.deleted = true;
 			rest.remove(brewery, "breweries", callback);
 		} else {

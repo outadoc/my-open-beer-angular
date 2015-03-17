@@ -1,85 +1,60 @@
-	<form name="frmConfig" data-ng-submit="frmConfig.$valid && update()" novalidate data-ng-init="setFormScope(this)">
-		<fieldset>
-			<legend>Rafraîchissements</legend>
-			<div class="form-group">
-				<label for="name">Breweries</label>
-					<div class="radio">
-						<label>
-							<input type="radio" name="breweriesRefresh" value="all" data-ng-model="config.breweries.refresh">
-							Recharger à chaque affichage
-						</label>
-					</div>
-				<div class="radio">
-					<label>
-						<input type="radio" name="breweriesRefresh" id="breweriesRefresh2" value="ask" data-ng-model="config.breweries.refresh">
-						A la demande
-					</label>
-				</div>
-                <label for="name">Bières</label>
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="beersRefresh" value="all" data-ng-model="config.beers.refresh">
-                        Recharger à chaque affichage
-                    </label>
-                </div>
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="beersRefresh" id="beersRefresh2" value="ask" data-ng-model="config.beers.refresh">
-                        A la demande
-                    </label>
-                </div>
-			</div>
-		</fieldset>
+<form name="frmConfig" data-ng-submit="frmConfig.$valid && update()" novalidate data-ng-init="setFormScope(this)">
+    <fieldset>
+        <legend>Mode de connexion</legend>
+        <div class="form-group">
+            <label for="name">Breweries</label>
 
-		<fieldset>
-			<legend>Mise à jour</legend>
-			<div class="form-group">
-				<label for="name">Breweries</label>
-					<div class="radio">
-						<label>
-							<input type="radio" name="breweriesUpdate" value="immediate" data-ng-model="config.breweries.update">
-							Immédiate
-						</label>
-					</div>
-				<div class="radio">
-					<label>
-						<input type="radio" name="breweriesUpdate" id="breweriesUpdate2" value="deffered" data-ng-model="config.breweries.update">
-						A la demande
-					</label>
-				</div>
-                <label for="name">Bières</label>
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="beersUpdate" value="immediate" data-ng-model="config.beers.update">
-                        Immédiate
-                    </label>
-                </div>
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="beersUpdate" id="beersUpdate2" value="deffered" data-ng-model="config.beers.update">
-                        A la demande
-                    </label>
-                </div>
-			</div>
-		</fieldset>
+            <div class="radio">
+                <label>
+                    <input type="radio" name="breweriesMode" value="online" data-ng-model="config.breweries.mode">
+                    Mode connecté (Chargement à chaque affichage et mise à jour immédiate)
+                </label>
+            </div>
+            <div class="radio">
+                <label>
+                    <input type="radio" name="breweriesMode" id="breweriesMode2" value="offline"
+                           data-ng-model="config.breweries.mode">
+                    Mode hors connexion (chargement et mise à jour à la demande)
+                </label>
+            </div>
+            <label for="name">Bières</label>
 
-		<fieldset>
-			<legend>Paramétres d'accès au serveur distant</legend>
-			<div class="form-group">
-				<label for="url">URL</label>
-				<input class="form-control" type="url" placeholder="Entrez une url" id="url" name="url" data-ng-model="config.server.restServerUrl">
-			</div>
-			<div class="form-group">
-				<label for="token">Private token</label>
-				<input class="form-control" type="text" placeholder="Entrez la clé" id="token" name="token" data-ng-model="config.auth.privateToken" disabled="disabled" >
-				<div class="checkbox">
-					<label>
-						<input type="checkbox" name="force" data-ng-model="config.server.force">
-						Force connexion
-					</label>
-				</div>
-			</div>
-		</fieldset>
-		<button type="submit" class="btn btn-default">Sauvegarder les modifications</button>
-		&nbsp;<a href="breweries" class="btn btn-default" data-ng-click="cancel()">Annuler</a>
-	</form>
+            <div class="radio">
+                <label>
+                    <input type="radio" name="beersMode" value="online" data-ng-model="config.beers.mode">
+                    Mode connecté (Chargement à chaque affichage et mise à jour immédiate)
+                </label>
+            </div>
+            <div class="radio">
+                <label>
+                    <input type="radio" name="beersMode" id="beersMode2" value="offline"
+                           data-ng-model="config.beers.mode">
+                    Mode hors connexion (chargement et mise à jour à la demande)
+                </label>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Paramétres d'accès au serveur distant</legend>
+        <div class="form-group">
+            <label for="url">URL</label>
+            <input class="form-control" type="url" placeholder="Entrez une url" id="url" name="url"
+                   data-ng-model="config.server.restServerUrl">
+        </div>
+        <div class="form-group">
+            <label for="token">Private token</label>
+            <input class="form-control" type="text" placeholder="Entrez la clé" id="token" name="token"
+                   data-ng-model="config.auth.privateToken" disabled="disabled">
+
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="force" data-ng-model="config.server.force">
+                    Force connexion
+                </label>
+            </div>
+        </div>
+    </fieldset>
+    <button type="submit" class="btn btn-default">Sauvegarder les modifications</button>
+    &nbsp;<a href="breweries" class="btn btn-default" data-ng-click="cancel()">Annuler</a>
+</form>

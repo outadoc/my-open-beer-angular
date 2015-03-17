@@ -30,7 +30,7 @@ module.exports = function ($scope, config, $location, rest, save, $document, mod
 			config.activeBeer.reference.photo = $scope.activeBeer.photo;
 			config.activeBeer.reference.updated_at = new Date();
 
-			if (config.beers.update === "immediate" || force)
+			if (config.beers.mode === "online" || force)
 				rest.put(config.activeBeer.id, $scope.data, "beers", config.activeBeer.name, callback);
 			else {
 				config.activeBeer.reference.flag = "Updated";
