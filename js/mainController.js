@@ -40,7 +40,6 @@ module.exports = function ($scope, $location, save, $window, config) {
 
 	$scope.getUsername = function() {
 		return config.auth.currentUser;
-	}
-	;
+	};
 
 };
