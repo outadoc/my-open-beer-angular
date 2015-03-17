@@ -25,10 +25,12 @@
 <body data-ng-controller="MainController">
 <div class="bs-docs-header">
     <div class="container">
-        <div class="header">
-            <h1>Open Beer Database</h1>
+        <div class="col-md-7 col-md-offset-3">
+            <header>
+                <h1>Open Beer Database</h1>
 
-            <p>A free, public database and API for beer information.</p>
+                <p>A free, public database and API for beer information.</p>
+            </header>
         </div>
     </div>
 </div>
@@ -54,11 +56,13 @@
                 <div class="navbar-right">
                     <p class="navbar-text" data-ng-show="isLoggedIn()">{{ getUsername() }}</p>
                     <button type="button" class="btn btn-default navbar-btn" data-ng-show="isLoggedIn()"
-                            data-ng-click="logout()">Déconnexion</button>
+                            data-ng-click="logout()">Déconnexion
+                    </button>
 
                     <p class="navbar-text" data-ng-hide="isLoggedIn()">Non connecté</p>
                     <button type="button" class="btn btn-default navbar-btn" data-ng-hide="isLoggedIn()"
-                            data-ng-click="login()">Connexion</button>
+                            data-ng-click="login()">Connexion
+                    </button>
                 </div>
             </div>
         </div>

@@ -792,7 +792,7 @@ module.exports = function () {
 	factory.beers.loaded = false;
 	factory.beers.mode = "online"; // online|offline
 
-	factory.server.restServerUrl = "http://127.0.0.1/rest-open-beer/";
+	factory.server.restServerUrl = "http://localhost/dut/S4/js_framework/rest-open-beer/";
 	factory.server.force = false;
 
 	factory.auth.currentUser = null;
