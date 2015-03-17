@@ -69,3 +69,12 @@ tr.active{
 	font-weight: bold;
 	font-color: #AD914D;
 }
+
+.navbar {
+    background-color: #F8F5F0;
+    border-color: #DFD7CA;
+}
+
+.navbar .btn {
+    background-color: #98978B;
+}

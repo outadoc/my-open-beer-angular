@@ -1,4 +1,4 @@
-module.exports = function ($scope, $location, save, $window) {
+module.exports = function ($scope, $location, save, $window, config) {
 
 	$scope.hasOperations = function () {
 		return save.operations.length > 0;
@@ -20,5 +20,27 @@ module.exports = function ($scope, $location, save, $window) {
 	$scope.$on("$destroy", function () {
 		$window.removeEventListener('beforeunload', beforeUnload);
 	});
+
+	$scope.isLoggedIn = function () {
+		return config.auth.privateToken !== null;
+	};
+
+	$scope.login = function () {
+		$location.path("/login");
+	};
+
+	$scope.logout = function () {
+		console.log("logging out");
+
+		config.auth.currentUser = null;
+		config.auth.privateToken = null;
+
+		$location.path("/home");
+	};
+
+	$scope.getUsername = function() {
+		return config.auth.currentUser;
+	}
+	;
 
 };

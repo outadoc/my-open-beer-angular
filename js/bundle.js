@@ -138,7 +138,7 @@ module.exports=function(){
 };
 },{}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/app.js":[function(require,module,exports){
 angular.module("mainApp", ["ngRoute", "ngResource", "ngAnimate", require("./breweries/breweriesModule"), require("./beers/beersModule"), require("./config/configModule")]).
-	controller("MainController", ["$scope", "$location", "save", "$window", require("./mainController")]).
+	controller("MainController", ["$scope", "$location", "save", "$window", "config", require("./mainController")]).
 	controller("SaveController", ["$scope", "$location", "save", require("./save/saveController")]).
 	controller("LoginController", ["$scope", "$location", "rest", require("./login/loginController")]).
 	service("rest", ["$http", "$resource", "$location", "config", "$sce", require("./services/rest")]).
@@ -177,11 +177,13 @@ angular.module("mainApp", ["ngRoute", "ngResource", "ngAnimate", require("./brew
 		});
 
 		$rootScope.$on("$routeChangeStart", function (event, next, current) {
-			if (config.server.currentUser == null) {
-				// no logged user, we should be going to #login
-				if (next.templateUrl != "templates/login.html") {
-					// not going to #login, we should redirect now
-					$location.path("/login");
+			// if no one is logged in, we should check if we're allowed to move there
+			if (config.auth.privateToken == null) {
+				for(var i = 0; i < config.routes.privateTemplates.length; i++) {
+					if(next.templateUrl == "templates" + config.routes.privateTemplates[i]) {
+						// if we're not allowed, redirect
+						$location.path("/login");
+					}
 				}
 			}
 		});
@@ -780,7 +782,7 @@ module.exports = function ($scope, config, $location) {
 };
 },{}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/config/configFactory.js":[function(require,module,exports){
 module.exports = function () {
-	var factory = {breweries: {}, server: {}, beers: {}};
+	var factory = {breweries: {}, server: {}, beers: {}, auth: {}, routes: {}};
 
 	factory.activeBrewery = undefined;
 
@@ -792,10 +794,13 @@ module.exports = function () {
 	factory.beers.refresh = "all";//all|ask
 	factory.beers.update = "immediate";//deffered|immediate
 
-	factory.server.currentUser = null;
-	factory.server.privateToken = null;
 	factory.server.restServerUrl = "http://localhost/dut/S4/js_framework/rest-open-beer/";
 	factory.server.force = false;
+
+	factory.auth.currentUser = null;
+	factory.auth.privateToken = null;
+
+	factory.routes.privateTemplates = ['/beers/beerForm.html', '/breweries/breweryForm.html'];
 
 	return factory;
 };
@@ -825,8 +830,8 @@ module.exports = function ($scope, $location, rest) {
 
 };
 },{}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/mainController.js":[function(require,module,exports){
-module.exports = function ($scope, $location, save, $window) {
-
+module.exports = function ($scope, $location, save, $window, config) {
+	
 	$scope.hasOperations = function () {
 		return save.operations.length > 0;
 	};
@@ -847,6 +852,28 @@ module.exports = function ($scope, $location, save, $window) {
 	$scope.$on("$destroy", function () {
 		$window.removeEventListener('beforeunload', beforeUnload);
 	});
+
+	$scope.isLoggedIn = function () {
+		return config.auth.privateToken !== null;
+	};
+
+	$scope.login = function () {
+		$location.path("/login");
+	};
+
+	$scope.logout = function () {
+		console.log("logging out");
+
+		config.auth.currentUser = null;
+		config.auth.privateToken = null;
+
+		$location.path("/home");
+	};
+
+	$scope.getUsername = function() {
+		return config.auth.currentUser;
+	}
+	;
 
 };
 },{}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/save/saveController.js":[function(require,module,exports){
@@ -905,7 +932,7 @@ module.exports = function ($http, $resource, $location, restConfig, $sce) {
 		this.messages = [];
 
 	this.getParams = function () {
-		return '?token=' + restConfig.server.privateToken + '&force=' + restConfig.server.force;
+		return '?token=' + restConfig.auth.privateToken + '&force=' + restConfig.server.force;
 	};
 
 	this.headers = {
@@ -1042,8 +1069,8 @@ module.exports = function ($http, $resource, $location, restConfig, $sce) {
 
 		}).success(function (data, status, headers, config) {
 			if(data.connected === true) {
-				restConfig.server.privateToken = data.token;
-				restConfig.server.currentUser = email;
+				restConfig.auth.privateToken = data.token;
+				restConfig.auth.currentUser = email;
 			}
 
 			callback(data.connected === true);

@@ -1,5 +1,5 @@
 angular.module("mainApp", ["ngRoute", "ngResource", "ngAnimate", require("./breweries/breweriesModule"), require("./beers/beersModule"), require("./config/configModule")]).
-	controller("MainController", ["$scope", "$location", "save", "$window", require("./mainController")]).
+	controller("MainController", ["$scope", "$location", "save", "$window", "config", require("./mainController")]).
 	controller("SaveController", ["$scope", "$location", "save", require("./save/saveController")]).
 	controller("LoginController", ["$scope", "$location", "rest", require("./login/loginController")]).
 	service("rest", ["$http", "$resource", "$location", "config", "$sce", require("./services/rest")]).
