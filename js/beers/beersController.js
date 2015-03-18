@@ -102,7 +102,9 @@ module.exports = function ($scope, rest, $timeout, $location, config, $route, sa
 			"beer": {
 				"name": beer.name,
 				"description": beer.description,
-				"photo": beer.photo
+				"photo": beer.photo,
+				"abv": beer.abv,
+				"idBrewery": beer.idBrewery
 			}
 		};
 

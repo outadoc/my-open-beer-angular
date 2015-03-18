@@ -22,12 +22,17 @@ module.exports = function ($scope, config, $location, rest, save, $document, mod
 			$scope.data.posted = {
 				"name": beer.name,
 				"description": beer.description,
-				"photo": beer.photo
+				"photo": beer.photo,
+				"abv": beer.abv,
+				"idBrewery": beer.idBrewery
 			};
 
 			config.activeBeer.reference.name = $scope.activeBeer.name;
 			config.activeBeer.reference.description = $scope.activeBeer.description;
 			config.activeBeer.reference.photo = $scope.activeBeer.photo;
+			config.activeBeer.reference.abv = $scope.activeBeer.abv;
+			config.activeBeer.reference.idBrewery = $scope.activeBeer.idBrewery;
+
 			config.activeBeer.reference.updated_at = new Date();
 
 			if (config.beers.mode === "online" || force)
