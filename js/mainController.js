@@ -1,4 +1,18 @@
-module.exports = function ($scope, $location, save, $window, config) {
+module.exports = function ($scope, $location, save, $window, $timeout, config, rest) {
+
+	$scope.messages = rest.messages;
+
+	$scope.hasMessage = function () {
+		return rest.messages.length > 0;
+	};
+
+	$scope.readMessage = function (message) {
+		$timeout(function () {
+			message.deleted = true;
+		}, 5000);
+
+		return true;
+	};
 
 	$scope.hasOperations = function () {
 		return save.operations.length > 0;
@@ -36,6 +50,11 @@ module.exports = function ($scope, $location, save, $window, config) {
 		config.auth.privateToken = null;
 
 		$location.path("/home");
+
+		rest.addMessage({
+			type: "success",
+			content: "Vous êtes maintenant déconnecté."
+		});
 	};
 
 	$scope.getUsername = function() {

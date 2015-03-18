@@ -1,4 +1,4 @@
-module.exports = function ($scope, rest, $timeout, $location, config, $route, save) {
+module.exports = function ($scope, rest, $location, config, $route, save) {
 	$scope.data = {load: false};
 
 	$scope.sortBy = {field: "name", asc: false};
@@ -46,17 +46,6 @@ module.exports = function ($scope, rest, $timeout, $location, config, $route, sa
 
 	$scope.isActive = function (brewery) {
 		return brewery == $scope.activeBrewery;
-	};
-
-	$scope.hasMessage = function () {
-		return rest.messages.length > 0;
-	};
-
-	$scope.readMessage = function (message) {
-		$timeout(function () {
-			message.deleted = true;
-		}, 5000);
-		return true;
 	};
 
 	$scope.countSelected = function () {

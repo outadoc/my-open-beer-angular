@@ -138,7 +138,7 @@ module.exports=function(){
 };
 },{}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/app.js":[function(require,module,exports){
 angular.module("mainApp", ["ngRoute", "ngResource", "ngAnimate", require("./breweries/breweriesModule"), require("./beers/beersModule"), require("./config/configModule")]).
-	controller("MainController", ["$scope", "$location", "save", "$window", "config", require("./mainController")]).
+	controller("MainController", ["$scope", "$location", "save", "$window", "$timeout", "config", "rest", require("./mainController")]).
 	controller("SaveController", ["$scope", "$location", "save", require("./save/saveController")]).
 	controller("LoginController", ["$scope", "$location", "rest", require("./login/loginController")]).
 	service("rest", ["$http", "$resource", "$location", "config", "$sce", require("./services/rest")]).
@@ -241,7 +241,9 @@ module.exports = function ($scope, config, $location, rest, save, $document, mod
 		$scope.data.posted = {
 			"name": beer.name,
 			"description": beer.description,
-			"photo": beer.photo
+			"photo": beer.photo,
+			"abv": beer.abv,
+			"idBrewery": beer.idBrewery
 		};
 
 		$scope.data.beers.push(beer);
@@ -259,13 +261,11 @@ module.exports = function ($scope, config, $location, rest, save, $document, mod
 
 };
 },{}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/beers/beersController.js":[function(require,module,exports){
-module.exports = function ($scope, rest, $timeout, $location, config, $route, save) {
+module.exports = function ($scope, rest, $location, config, $route, save) {
 
 	$scope.data = {load: false};
 
 	$scope.sortBy = {field: "name", asc: false};
-
-	$scope.messages = rest.messages;
 
 	if (config.beers.mode === "online" || !config.beers.loaded) {
 		$scope.data.load = true;
@@ -310,18 +310,6 @@ module.exports = function ($scope, rest, $timeout, $location, config, $route, sa
 		return beer == $scope.activeBeer;
 	};
 
-	$scope.hasMessage = function () {
-		return rest.messages.length > 0;
-	};
-
-	$scope.readMessage = function (message) {
-		$timeout(function () {
-			message.deleted = true;
-		}, 5000);
-
-		return true;
-	};
-
 	$scope.countSelected = function () {
 		var result = 0;
 
@@ -363,7 +351,9 @@ module.exports = function ($scope, rest, $timeout, $location, config, $route, sa
 			"beer": {
 				"name": beer.name,
 				"description": beer.description,
-				"photo": beer.photo
+				"photo": beer.photo,
+				"abv": beer.abv,
+				"idBrewery": beer.idBrewery
 			}
 		};
 
@@ -431,12 +421,17 @@ module.exports = function ($scope, config, $location, rest, save, $document, mod
 			$scope.data.posted = {
 				"name": beer.name,
 				"description": beer.description,
-				"photo": beer.photo
+				"photo": beer.photo,
+				"abv": beer.abv,
+				"idBrewery": beer.idBrewery
 			};
 
 			config.activeBeer.reference.name = $scope.activeBeer.name;
 			config.activeBeer.reference.description = $scope.activeBeer.description;
 			config.activeBeer.reference.photo = $scope.activeBeer.photo;
+			config.activeBeer.reference.abv = $scope.activeBeer.abv;
+			config.activeBeer.reference.idBrewery = $scope.activeBeer.idBrewery;
+
 			config.activeBeer.reference.updated_at = new Date();
 
 			if (config.beers.mode === "online" || force)
@@ -456,7 +451,7 @@ module.exports = function ($scope, config, $location, rest, save, $document, mod
 
 };
 },{}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/breweries/breweriesController.js":[function(require,module,exports){
-module.exports = function ($scope, rest, $timeout, $location, config, $route, save) {
+module.exports = function ($scope, rest, $location, config, $route, save) {
 	$scope.data = {load: false};
 
 	$scope.sortBy = {field: "name", asc: false};
@@ -504,17 +499,6 @@ module.exports = function ($scope, rest, $timeout, $location, config, $route, sa
 
 	$scope.isActive = function (brewery) {
 		return brewery == $scope.activeBrewery;
-	};
-
-	$scope.hasMessage = function () {
-		return rest.messages.length > 0;
-	};
-
-	$scope.readMessage = function (message) {
-		$timeout(function () {
-			message.deleted = true;
-		}, 5000);
-		return true;
 	};
 
 	$scope.countSelected = function () {
@@ -815,7 +799,7 @@ module.exports = function ($scope, $location, rest) {
 	$scope.login = function () {
 		rest.login($scope.email, $scope.password, function (success) {
 			if(success) {
-				console.log("Connection successful, logged in as " + email);
+				console.log("Connection successful, logged in as " + $scope.email);
 				$scope.wrongPassword = false;
 
 				$location.path("/");
@@ -828,7 +812,21 @@ module.exports = function ($scope, $location, rest) {
 
 };
 },{}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/mainController.js":[function(require,module,exports){
-module.exports = function ($scope, $location, save, $window, config) {
+module.exports = function ($scope, $location, save, $window, $timeout, config, rest) {
+
+	$scope.messages = rest.messages;
+
+	$scope.hasMessage = function () {
+		return rest.messages.length > 0;
+	};
+
+	$scope.readMessage = function (message) {
+		$timeout(function () {
+			message.deleted = true;
+		}, 5000);
+
+		return true;
+	};
 
 	$scope.hasOperations = function () {
 		return save.operations.length > 0;
@@ -866,6 +864,11 @@ module.exports = function ($scope, $location, save, $window, config) {
 		config.auth.privateToken = null;
 
 		$location.path("/home");
+
+		rest.addMessage({
+			type: "success",
+			content: "Vous êtes maintenant déconnecté."
+		});
 	};
 
 	$scope.getUsername = function() {
@@ -1068,6 +1071,16 @@ module.exports = function ($http, $resource, $location, restConfig, $sce) {
 			if(data.connected === true) {
 				restConfig.auth.privateToken = data.token;
 				restConfig.auth.currentUser = email;
+
+				self.addMessage({
+					type: "success",
+					content: "Connexion réussie !"
+				});
+			} else {
+				self.addMessage({
+					type: "danger",
+					content: "Erreur d'authentification. Vérifiez votre mot de passe."
+				});
 			}
 
 			callback(data.connected === true);

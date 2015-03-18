@@ -10,7 +10,6 @@
     <script async type="text/javascript"
             src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
-
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-route.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-cookies.min.js"></script>
@@ -67,6 +66,12 @@
             </div>
         </div>
     </nav>
+</div>
+<div class="panel panel-default" data-ng-show="resultMessages.length > 0">
+    <div class="container">
+        <h4><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>&nbsp;Informations</h4>
+        <p data-ng-repeat="message in messages| NotDeletedFilter as resultMessages" class="text-{{message.type}}" data-ng-show="readMessage(message)" data-ng-bind-html="message.content"></p>
+    </div>
 </div>
 <div class="container">
     <ng-view>
