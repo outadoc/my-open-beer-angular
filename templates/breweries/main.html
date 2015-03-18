@@ -22,9 +22,9 @@
         </a>
 	</div>
 	<div class="btn-group" role="group" aria-label="count">
-		<div class="btn">
+        <button class="btn btn-link" disabled>
             <data-ng-pluralize count="results.length" when="{0: 'no brewery',1: 'One brewery','other':'{} breweries'}"></data-ng-pluralize>
-        </div>
+        </button>
 	</div>
 	<div class="btn-group" role="group" aria-label="false" data-ng-show="data.load">
 		<img class="btn" src="img/loader.gif">
