@@ -342,6 +342,14 @@ module.exports = function ($scope, rest, $location, config, $route, save) {
 		$location.path("beers/update");
 	};
 
+	$scope.show = function (beer) {
+		if (angular.isDefined(beer))
+			$scope.activeBeer = beer;
+		config.activeBeer = angular.copy($scope.activeBeer);
+		config.activeBeer.reference = $scope.activeBeer;
+		$location.path("beers/show");
+	};
+
 	$scope.update = function (beer, force, callback) {
 		if (angular.isUndefined(beer)) {
 			beer = $scope.activeBeer;
@@ -391,12 +399,24 @@ module.exports = function ($scope, rest, $location, config, $route, save) {
 };
 },{}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/beers/beersModule.js":[function(require,module,exports){
 var appBeers = angular.module("BeersApp", []).
-	controller("BeersController", ["$scope", "rest", "$timeout", "$location", "config", "$route", "save", require("./beersController")]).
+	controller("BeersController", ["$scope", "rest", "$location", "config", "$route", "save", require("./beersController")]).
+	controller("BeersShowController", ["$scope", "rest", "$timeout", "$location", "config", "$route", "save", require("./beersShowController")]).
 	controller("BeersAddController", ["$scope", "config", "$location", "rest", "save", "$document", "modalService", require("./beersAddController")]).
 	controller("BeersUpdateController", ["$scope", "config", "$location", "rest", "save", "$document", "modalService", "$controller", require("./beersUpdateController")]);
 
 module.exports = angular.module("BeersApp").name;
-},{"./beersAddController":"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/beers/beersAddController.js","./beersController":"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/beers/beersController.js","./beersUpdateController":"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/beers/beersUpdateController.js"}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/beers/beersUpdateController.js":[function(require,module,exports){
+},{"./beersAddController":"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/beers/beersAddController.js","./beersController":"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/beers/beersController.js","./beersShowController":"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/beers/beersShowController.js","./beersUpdateController":"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/beers/beersUpdateController.js"}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/beers/beersShowController.js":[function(require,module,exports){
+module.exports = function ($scope, rest, $timeout, $location, config, $route, save) {
+
+	$scope.beer = config.activeBeer;
+
+	if (angular.isUndefined(config.activeBeer)) {
+		$location.path("beers/");
+	}
+
+};
+
+},{}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/beers/beersUpdateController.js":[function(require,module,exports){
 module.exports = function ($scope, config, $location, rest, save, $document, modalService, $controller) {
 
 	$controller('BeersAddController', {$scope: $scope});
@@ -572,7 +592,7 @@ module.exports = function ($scope, rest, $location, config, $route, save) {
 };
 },{}],"/media/Data/home/Dropbox/Etudes/DUT/S4/js_framework/my-open-beer-angular/js/breweries/breweriesModule.js":[function(require,module,exports){
 var appBreweries = angular.module("BreweriesApp", []).
-	controller("BreweriesController", ["$scope", "rest", "$timeout", "$location", "config", "$route", "save", require("./breweriesController")]).
+	controller("BreweriesController", ["$scope", "rest", "$location", "config", "$route", "save", require("./breweriesController")]).
 	controller("BreweryAddController", ["$scope", "config", "$location", "rest", "save", "$document", "modalService", require("./breweryAddController")]).
 	controller("BreweryUpdateController", ["$scope", "config", "$location", "rest", "save", "$document", "modalService", "$controller", require("./breweryUpdateController")]);
 
@@ -722,6 +742,9 @@ module.exports = function ($routeProvider, $locationProvider, $httpProvider) {
 		}).when('/beers/update', {
 			templateUrl: 'templates/beers/beerForm.html',
 			controller: 'BeersUpdateController'
+		}).when('/beers/show', {
+			templateUrl: 'templates/beers/beerShow.html',
+			controller: 'BeersShowController'
 		}).when('/saves', {
 			templateUrl: 'templates/saveMain.html',
 			controller: 'SaveController'
