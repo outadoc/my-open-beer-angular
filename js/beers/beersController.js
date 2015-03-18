@@ -79,6 +79,14 @@ module.exports = function ($scope, rest, $location, config, $route, save) {
 		$location.path("beers/update");
 	};
 
+	$scope.show = function (beer) {
+		if (angular.isDefined(beer))
+			$scope.activeBeer = beer;
+		config.activeBeer = angular.copy($scope.activeBeer);
+		config.activeBeer.reference = $scope.activeBeer;
+		$location.path("beers/show");
+	};
+
 	$scope.update = function (beer, force, callback) {
 		if (angular.isUndefined(beer)) {
 			beer = $scope.activeBeer;

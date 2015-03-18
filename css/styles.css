@@ -79,3 +79,12 @@ tr.active {
 .navbar .btn {
     background-color: #98978B;
 }
+
+.btnVoirBiere {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.btnModifierBiere {
+    width: 100%;
+}
