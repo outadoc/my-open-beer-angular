@@ -32,6 +32,9 @@ module.exports = function ($routeProvider, $locationProvider, $httpProvider) {
 		}).when('/beers/update', {
 			templateUrl: 'templates/beers/beerForm.html',
 			controller: 'BeersUpdateController'
+		}).when('/beers/show', {
+			templateUrl: 'templates/beers/beerShow.html',
+			controller: 'BeersUpdateController'
 		}).when('/saves', {
 			templateUrl: 'templates/saveMain.html',
 			controller: 'SaveController'
