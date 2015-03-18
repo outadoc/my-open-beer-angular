@@ -1,10 +1,8 @@
-module.exports = function ($scope, rest, $timeout, $location, config, $route, save) {
+module.exports = function ($scope, rest, $location, config, $route, save) {
 
 	$scope.data = {load: false};
 
 	$scope.sortBy = {field: "name", asc: false};
-
-	$scope.messages = rest.messages;
 
 	if (config.beers.mode === "online" || !config.beers.loaded) {
 		$scope.data.load = true;
@@ -47,18 +45,6 @@ module.exports = function ($scope, rest, $timeout, $location, config, $route, sa
 
 	$scope.isActive = function (beer) {
 		return beer == $scope.activeBeer;
-	};
-
-	$scope.hasMessage = function () {
-		return rest.messages.length > 0;
-	};
-
-	$scope.readMessage = function (message) {
-		$timeout(function () {
-			message.deleted = true;
-		}, 5000);
-
-		return true;
 	};
 
 	$scope.countSelected = function () {

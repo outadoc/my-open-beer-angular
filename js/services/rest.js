@@ -144,6 +144,16 @@ module.exports = function ($http, $resource, $location, restConfig, $sce) {
 			if(data.connected === true) {
 				restConfig.auth.privateToken = data.token;
 				restConfig.auth.currentUser = email;
+
+				self.addMessage({
+					type: "success",
+					content: "Connexion réussie !"
+				});
+			} else {
+				self.addMessage({
+					type: "danger",
+					content: "Erreur d'authentification. Vérifiez votre mot de passe."
+				});
 			}
 
 			callback(data.connected === true);
