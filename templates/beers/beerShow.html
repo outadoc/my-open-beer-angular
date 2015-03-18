@@ -1,1 +1,28 @@
-I'm a beer !
+<div class="panel panel-default">
+    <div class="panel-heading">{{beer.name}}</div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-xs-6 col-md-3">
+                <a href="#" class="thumbnail">
+                    <img src="{{beer.photo}}" alt="{{beer.name}}">
+                </a>
+            </div>
+            <div class="col-md-9">
+                <div class="col-md-12 text-justify">
+                    <strong>Nom :</strong><br>
+                    {{beer.name}}<br><br>
+                    <strong>Description :</strong><br>
+                    {{beer.description}}<br><br>
+                </div>
+                <div class="col-md-6">
+                    <strong>Date de création :</strong><br>
+                    {{beer.created_at}}
+                </div>
+                <div class="col-md-6">
+                    <strong>Date de mise à jour :</strong><br>
+                    {{beer.updated_at}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
