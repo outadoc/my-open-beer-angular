@@ -5,7 +5,7 @@ module.exports = function ($scope, $location, rest) {
 	$scope.login = function () {
 		rest.login($scope.email, $scope.password, function (success) {
 			if(success) {
-				console.log("Connection successful, logged in as " + email);
+				console.log("Connection successful, logged in as " + $scope.email);
 				$scope.wrongPassword = false;
 
 				$location.path("/");
