@@ -5,5 +5,4 @@ module.exports = function ($scope, rest, $timeout, $location, config, $route, sa
 	if (angular.isUndefined(config.activeBeer)) {
 		$location.path("beers/");
 	}
-
 };

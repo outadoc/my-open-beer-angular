@@ -13,9 +13,6 @@
 	<div class="btn-group" role="group" aria-label="opération" data-ng-show="defferedUpdate()">
 		<a class="btn btn-default" data-ng-class="{'active': mustHideDeleted}" data-ng-click="hideDeleted()">Masquer les suppressions</a>
 	</div>
-	<div class="btn-group" role="group" aria-label="Modifier">
-		<a class="btn btn-default" data-ng-show="showUpdate()" data-ng-click="edit()">Modifier</a>
-	</div>
 	<div class="btn-group" role="group" aria-label="Supprimer">
 		<a class="btn btn-default" data-ng-show="countSelected()>0" data-ng-click="remove()">
             <data-ng-pluralize count="countSelected()" when="{1: 'Supprimer la bière','other':'Supprimer les bières ({})'}"></data-ng-pluralize>
@@ -35,11 +32,11 @@
 	<thead>
 		<tr>
 			<th><input type="checkbox" title="Sélectionner" data-ng-click="selectAll()" data-ng-model="allSelected"></th>
-			<th data-sort-by data-field="id" data-ref="sortBy"># </th>
-			<th data-sort-by data-field="name" data-ref="sortBy">Name </th>
+			<th data-sort-by data-field="id" data-ref="sortBy">#</th>
+			<th data-sort-by data-field="name" data-ref="sortBy">Name</th>
             <th>Photo </th>
-			<th data-sort-by data-field="description" data-ref="sortBy">Description </th>
-			<th data-sort-by data-field="created_at" data-ref="sortBy">Created at </th>
+			<th data-sort-by data-field="description" data-ref="sortBy">Description</th>
+			<th data-sort-by data-field="created_at" data-ref="sortBy">Created at</th>
 			<th>Updated at</th>
             <th></th>
 		</tr>
@@ -54,10 +51,10 @@
 			<td>{{beer.created_at | date:'dd/MM/yy HH:mm:ss'}}</td>
 			<td>{{beer.updated_at | date:'dd/MM/yy HH:mm:ss'}}</td>
             <td>
-                <div class="btn-group btnVoirBiere" role="group" aria-label="VoirBiere">
+                <div class="btn-group btnVoir" role="group" aria-label="VoirBiere">
                     <a class="btn btn-default btn-block" data-ng-click="show(beer)">Voir la bière</a>
                 </div>
-                <div class="btn-group btnModifierBiere" role="group" aria-label="ModifierBiere">
+                <div class="btn-group btnModifier" role="group" aria-label="ModifierBiere">
                     <a class="btn btn-default btn-block" data-ng-click="edit(beer)">Modifier la bière</a>
                 </div>
             </td>

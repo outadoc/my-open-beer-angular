@@ -1,0 +1,28 @@
+<div class="panel panel-default">
+    <div class="panel-heading">{{brewery.name}}</div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-xs-6 col-md-3">
+                <a href="#" class="thumbnail">
+                    <img src="{{brewery.photo}}" alt="{{brewery.name}}">
+                </a>
+            </div>
+            <div class="col-md-9">
+                <div class="col-md-12 text-justify">
+                    <strong>Nom :</strong><br>
+                    {{brewery.name}}<br><br>
+                    <strong>Url :</strong><br>
+                    <a href="{{brewery.url}}">{{brewery.url}}</a><br><br>
+                </div>
+                <div class="col-md-6">
+                    <strong>Date de création :</strong><br>
+                    {{brewery.created_at}}
+                </div>
+                <div class="col-md-6">
+                    <strong>Date de mise à jour :</strong><br>
+                    {{brewery.updated_at}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

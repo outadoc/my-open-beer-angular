@@ -80,11 +80,11 @@ tr.active {
     background-color: #98978B;
 }
 
-.btnVoirBiere {
+.btnVoir {
     width: 100%;
     margin-bottom: 10px;
 }
 
-.btnModifierBiere {
+.btnModifier {
     width: 100%;
 }
