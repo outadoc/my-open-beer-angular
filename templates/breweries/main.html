@@ -13,6 +13,12 @@
 	<div class="btn-group" role="group" aria-label="opération" data-ng-show="defferedUpdate()">
 		<a class="btn btn-default" data-ng-class="{'active': mustHideDeleted}" data-ng-click="hideDeleted()">Masquer les suppressions</a>
 	</div>
+    <div class="btn-group" role="group" aria-label="Voir">
+        <a class="btn btn-default btn-block" data-ng-show="showUpdate()" data-ng-click="show()">Voir la brasserie</a>
+    </div>
+	<div class="btn-group" role="group" aria-label="Modifier">
+		<a class="btn btn-default" data-ng-show="showUpdate()" data-ng-click="edit()">Modifier la brasserie</a>
+	</div>
 	<div class="btn-group" role="group" aria-label="Supprimer">
 		<a class="btn btn-default" data-ng-show="countSelected()>0" data-ng-click="remove()">
             <data-ng-pluralize count="countSelected()" when="{1: 'Supprimer la brasserie','other':'Supprimer les brasseries ({})'}"></data-ng-pluralize>
@@ -32,30 +38,21 @@
 	<thead>
 		<tr>
 			<th><input type="checkbox" title="Sélectionner" data-ng-click="selectAll()" data-ng-model="allSelected"></th>
-			<th data-sort-by data-field="id" data-ref="sortBy">#</th>
-			<th data-sort-by data-field="name" data-ref="sortBy">Name</th>
-			<th data-sort-by data-field="url" data-ref="sortBy">url</th>
-			<th data-sort-by data-field="created_at" data-ref="sortBy">Created at</th>
+			<th data-sort-by data-field="id" data-ref="sortBy"># </th>
+			<th data-sort-by data-field="name" data-ref="sortBy">Name </th>
+			<th data-sort-by data-field="url" data-ref="sortBy">url </th>
+			<th data-sort-by data-field="created_at" data-ref="sortBy">Created at </th>
 			<th>Updated at</th>
-            <th id="colBtn"></th>
 		</tr>
 	</thead>
 	<tbody>
-		<tr data-ng-repeat="brewery in data.breweries | NotDeletedFilter | orderBy:sortBy.field : sortBy.asc | filter:q as results track by $index">
+		<tr data-ng-repeat="brewery in data.breweries | NotDeletedFilter | orderBy:sortBy.field : sortBy.asc | filter:q as results track by $index" data-ng-dblclick="edit(brewery)" data-ng-click="setActive(brewery)" data-ng-class="{'active': isActive(brewery)}">
 			<td><input type="checkbox" title="Sélectionner" data-ng-model="brewery.selected" data-ng-click="$event.stopPropagation()"></td>
 			<td>{{brewery.id}}</td><td>{{brewery.name}}
 				<span class="label" data-ng-class="{'label-success':brewery.flag=='New','label-warning':brewery.flag=='Updated','label-danger':brewery.flag=='Deleted'}" data-ng-show="brewery.flag">{{brewery.flag}}</span></td>
 			<td>{{brewery.url}}</td>
 			<td>{{brewery.created_at | date:'dd/MM/yy HH:mm:ss'}}</td>
 			<td>{{brewery.updated_at | date:'dd/MM/yy HH:mm:ss'}}</td>
-            <td>
-                <div class="btn-group btnVoir" role="group" aria-label="VoirBrasserie">
-                    <a class="btn btn-default btn-block" data-ng-click="show(brewery)">Voir la brasserie</a>
-                </div>
-                <div class="btn-group btnModifier" role="group" aria-label="ModifierBrasserie">
-                    <a class="btn btn-default btn-block" data-ng-click="edit(brewery)">Modifier la brasserie</a>
-                </div>
-            </td>
 		</tr>
 	</tbody>
 </table>
