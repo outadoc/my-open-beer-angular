@@ -88,3 +88,7 @@ tr.active {
 .btnModifier {
     width: 100%;
 }
+
+#colBtn {
+    width: 10%;
+}
