@@ -13,6 +13,12 @@
 	<div class="btn-group" role="group" aria-label="opération" data-ng-show="defferedUpdate()">
 		<a class="btn btn-default" data-ng-class="{'active': mustHideDeleted}" data-ng-click="hideDeleted()">Masquer les suppressions</a>
 	</div>
+    <div class="btn-group" role="group" aria-label="Voir">
+        <a class="btn btn-default btn-block" data-ng-show="showUpdate()" data-ng-click="show()">Voir la bière</a>
+    </div>
+    <div class="btn-group" role="group" aria-label="Modifier">
+        <a class="btn btn-default" data-ng-show="showUpdate()" data-ng-click="edit()">Modifier la bière</a>
+    </div>
 	<div class="btn-group" role="group" aria-label="Supprimer">
 		<a class="btn btn-default" data-ng-show="countSelected()>0" data-ng-click="remove()">
             <data-ng-pluralize count="countSelected()" when="{1: 'Supprimer la bière','other':'Supprimer les bières ({})'}"></data-ng-pluralize>
@@ -26,7 +32,6 @@
 	<div class="btn-group" role="group" aria-label="false" data-ng-show="data.load">
 		<img class="btn" src="img/loader.gif">
 	</div>
-	
 </div>
 <table class="table table-striped table-condensed">
 	<thead>
@@ -38,11 +43,10 @@
 			<th data-sort-by data-field="description" data-ref="sortBy">Description</th>
 			<th data-sort-by data-field="created_at" data-ref="sortBy">Created at</th>
 			<th>Updated at</th>
-            <th></th>
 		</tr>
 	</thead>
 	<tbody>
-		<tr data-ng-repeat="beer in data.beers | NotDeletedFilter | orderBy:sortBy.field : sortBy.asc | filter:q as results track by $index">
+		<tr data-ng-repeat="beer in data.beers | NotDeletedFilter | orderBy:sortBy.field : sortBy.asc | filter:q as results track by $index" data-ng-dblclick="edit(beer)" data-ng-click="setActive(beer)" data-ng-class="{'active': isActive(beer)}">
 			<td><input type="checkbox" title="Sélectionner" data-ng-model="beer.selected" data-ng-click="$event.stopPropagation()"></td>
 			<td>{{beer.id}}</td><td>{{beer.name}}
 				<span class="label" data-ng-class="{'label-success':beer.flag=='New','label-warning':beer.flag=='Updated','label-danger':beer.flag=='Deleted'}" data-ng-show="beer.flag">{{beer.flag}}</span></td>
@@ -50,14 +54,6 @@
             <td>{{beer.description}}</td>
 			<td>{{beer.created_at | date:'dd/MM/yy HH:mm:ss'}}</td>
 			<td>{{beer.updated_at | date:'dd/MM/yy HH:mm:ss'}}</td>
-            <td>
-                <div class="btn-group btnVoir" role="group" aria-label="VoirBiere">
-                    <a class="btn btn-default btn-block" data-ng-click="show(beer)">Voir la bière</a>
-                </div>
-                <div class="btn-group btnModifier" role="group" aria-label="ModifierBiere">
-                    <a class="btn btn-default btn-block" data-ng-click="edit(beer)">Modifier la bière</a>
-                </div>
-            </td>
 		</tr>
 	</tbody>
 </table>
