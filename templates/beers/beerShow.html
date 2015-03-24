@@ -9,22 +9,22 @@
             </div>
             <div class="col-md-9">
                 <div class="col-md-12 text-justify">
-                    <strong>Nom :</strong><br>
+                    <strong><span translate="list.NAME"></span> :</strong><br>
                     {{beer.name}}<br><br>
-                    <strong>Description :</strong><br>
+                    <strong><span translate="list.DESCRIPTION"></span> :</strong><br>
                     {{beer.description}}<br><br>
                 </div>
                 <div class="col-md-6">
-                    <strong>Date de création :</strong><br>
+                    <strong><span translate="list.CREATED_AT"></span> :</strong><br>
                     {{beer.created_at}}
                 </div>
                 <div class="col-md-6">
-                    <strong>Date de mise à jour :</strong><br>
+                    <strong><span translate="list.UPDATED_AT"></span> :</strong><br>
                     {{beer.updated_at}}
                 </div>
                 <div class="col-md-12"><br>
                     <div class="btn-group" role="group">
-                        <a class="btn btn-default" data-ng-click="show()">Afficher la brasserie</a>
+                        <a class="btn btn-default" data-ng-click="show()" translate="show.beers.DISPLAY"></a>
                     </div>
                 </div>
             </div>
@@ -32,5 +32,5 @@
     </div>
 </div>
 <div class="btn-group" role="group">
-    <a class="btn btn-default" href="beers">Retour à la liste des bières</a>
+    <a class="btn btn-default" href="beers" translate="show.beers.BACK"></a>
 </div>

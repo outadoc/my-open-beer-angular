@@ -136,6 +136,16 @@ module.exports = function ($routeProvider, $locationProvider, $httpProvider, $tr
 		edit: {
 			SUBMIT: "Valider",
 			CANCEL: "Annuler"
+		},
+		show: {
+			beers: {
+				DISPLAY: "Afficher les bières",
+				BACK: "Retour à la liste des bières"
+			},
+			breweries: {
+				DISPLAY: "Afficher la brasserie",
+				BACK: "Retour à la liste des brasseries"
+			}
 		}
 	});
 
