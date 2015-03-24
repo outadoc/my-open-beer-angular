@@ -107,6 +107,12 @@ module.exports = function ($routeProvider, $locationProvider, $httpProvider, $tr
 				TOKEN: "Jeton privé",
 				FORCE: "Forcer la connexion"
 			}
+		},
+		login: {
+			TITLE: "Connexion",
+			EMAIL: "Adresse email",
+			PASSWORD: "Mot de passe",
+			REMEMBER: "Se souvenir de moi"
 		}
 	});
 
