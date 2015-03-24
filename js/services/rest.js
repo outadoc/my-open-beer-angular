@@ -156,7 +156,7 @@ module.exports = function ($http, $resource, $location, restConfig, $sce) {
 				});
 			}
 
-			callback(data.connected === true);
+			callback(data.connected === true, data.token);
 
 		}).error(function (data, status, headers, config) {
 			self.addMessage({
