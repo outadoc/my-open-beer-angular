@@ -13,7 +13,8 @@ module.exports = function ($http, $resource, $location, restConfig, $sce) {
 		'Accept': 'application/json'
 	};
 
-	this.getAll = function (response, what) {
+	this.getAll = function (response, what, caption) {
+
 		var request = $http({
 			method: "GET",
 			url: restConfig.server.restServerUrl + what + this.getParams(),
@@ -21,18 +22,21 @@ module.exports = function ($http, $resource, $location, restConfig, $sce) {
 			callback: 'JSON_CALLBACK'
 		});
 
+		if (angular.isUndefined(caption)) {
+			caption = what;
+		}
+
 		request.success(function (data, status, headers, config) {
-			response[what] = data;
-			restConfig[what].all = data;
+			response[caption] = data;
+			restConfig[caption].all = data;
 			response.load = false;
-		}).
-			error(function (data, status, headers, config) {
-				self.addMessage({
-					type: "danger",
-					content: "Erreur de connexion au serveur, statut de la réponse : " + status
-				});
-				console.log("Erreur de connexion au serveur, statut de la réponse : " + status);
+		}).error(function (data, status, headers, config) {
+			self.addMessage({
+				type: "danger",
+				content: "Erreur de connexion au serveur, statut de la réponse : " + status
 			});
+			console.log("Erreur de connexion au serveur, statut de la réponse : " + status);
+		});
 	};
 
 	this.addMessage = function (message) {

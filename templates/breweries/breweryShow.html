@@ -25,6 +25,7 @@
                 <div class="col-md-12"><br>
                     <div class="btn-group" role="group">
                         <a class="btn btn-default" href="" translate="show.breweries.DISPLAY"></a>
+                        <a class="btn btn-default" href="show()">Afficher les bières</a>
                     </div>
                 </div>
             </div>
@@ -32,5 +33,9 @@
     </div>
 </div>
 <div class="btn-group" role="group">
+    <a class="btn btn-default" href="breweries">Retour à la liste des brasseries</a>
+</div>
+<div data-ng-repeat="beer in beers['all']">
+    {{beer.name}}
     <a class="btn btn-default" href="breweries" translate="show.beers.DISPLAY"></a>
 </div>
