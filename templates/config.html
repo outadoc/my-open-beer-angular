@@ -2,9 +2,9 @@
     <fieldset>
         <legend translate="config.mode.TITLE"></legend>
         <div class="form-group">
-            <label for="name" translate="config.BREWERIES"></label>
+            <label for="config-breweries" translate="config.BREWERIES"></label>
 
-            <div class="radio">
+            <div class="radio" id="config-breweries">
                 <label>
                     <input type="radio" name="breweriesMode" value="online" data-ng-model="config.breweries.mode">
                     <span translate="config.mode.ONLINE"></span>
@@ -17,9 +17,9 @@
                     <span translate="config.mode.OFFLINE"></span>
                 </label>
             </div>
-            <label for="name">Bières</label>
 
-            <div class="radio">
+            <label for="config-beers" translate="config.BEERS"></label>
+            <div class="radio" id="config-beers">
                 <label>
                     <input type="radio" name="beersMode" value="online" data-ng-model="config.beers.mode">
                     <span translate="config.mode.ONLINE"></span>
