@@ -139,11 +139,11 @@ module.exports = function ($routeProvider, $locationProvider, $httpProvider, $tr
 		},
 		show: {
 			beers: {
-				DISPLAY: "Afficher les bières",
+				DISPLAY: "Afficher la brasserie",
 				BACK: "Retour à la liste des bières"
 			},
 			breweries: {
-				DISPLAY: "Afficher la brasserie",
+				DISPLAY: "Afficher les bières",
 				BACK: "Retour à la liste des brasseries"
 			}
 		}
