@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-ng-app="mainApp" data-ng-cloak>
 <head>
-    <title ng-bind="'Open Beer &mdash; ' + title">Open Beer</title>
+    <title data-ng-bind="'Open Beer &mdash; ' + title">Open Beer</title>
 
     <base href="http://127.0.0.1/my-open-beer-angular/">
     <meta charset="UTF-8">
@@ -56,6 +56,16 @@
                 </button>
             </div>
             <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            {{ 'global.LANGUAGE' | translate }} <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#" data-ng-click="setLang('fr_FR')" translate="language.FR"></a></li>
+                            <li><a href="#" data-ng-click="setLang('en_US')" translate="language.EN"></a></li>
+                        </ul>
+                    </li>
+                </ul>
                 <div class="navbar-right">
                     <p class="navbar-text" data-ng-show="isLoggedIn()">{{ getUsername() }}</p>
                     <button type="button" class="btn btn-default navbar-btn" data-ng-show="isLoggedIn()"
@@ -73,7 +83,8 @@
 </div>
 <div class="panel panel-default" data-ng-show="resultMessages.length > 0">
     <div class="container">
-        <h4><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>&nbsp;<span translate="global.INFO_TITLE"></span></h4>
+        <h4><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>&nbsp;<span
+                translate="global.INFO_TITLE"></span></h4>
 
         <p data-ng-repeat="message in messages| NotDeletedFilter as resultMessages" class="text-{{message.type}}"
            data-ng-show="readMessage(message)" data-ng-bind-html="message.content"></p>
