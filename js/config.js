@@ -70,8 +70,13 @@ module.exports = function ($routeProvider, $locationProvider, $httpProvider, $tr
 
 	$translateProvider.translations('fr_FR', {
 		global: {
-			SUBTITLE: "Une base de données et API gratuite et publique pour les ours.",
-			INFO_TITLE: "Informations"
+			INFO_TITLE: "Informations",
+			LANGUAGE: "Langue",
+			SUBTITLE: "Une base de données et API gratuite et publique pour les ours."
+		},
+		language: {
+			FR: "Français",
+			EN: "Anglais"
 		},
 		main: {
 			HOME: "Accueil",
@@ -151,8 +156,13 @@ module.exports = function ($routeProvider, $locationProvider, $httpProvider, $tr
 
 	$translateProvider.translations('en_US', {
 		global: {
-			SUBTITLE: "A free, public database and API for beer information.",
-			INFO_TITLE: "Informations"
+			SUBTITLE: "A free, public database and API for bear information.",
+			INFO_TITLE: "Informations",
+			LANGUAGE: "Language"
+		},
+		language: {
+			FR: "French",
+			EN: "English"
 		},
 		main: {
 			HOME: "Home",

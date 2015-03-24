@@ -1,4 +1,4 @@
-module.exports = function ($scope, $location, $cookies, rest, config) {
+module.exports = function ($scope, $location, $cookies, $translate, rest, config) {
 
 	$scope.wrongPassword = false;
 
@@ -8,7 +8,7 @@ module.exports = function ($scope, $location, $cookies, rest, config) {
 				console.log("Connection successful, logged in as " + $scope.email);
 				$scope.wrongPassword = false;
 
-				if($scope.remember) {
+				if ($scope.remember) {
 					$cookies.currentUser = $scope.email;
 					$cookies.privateToken = token;
 				}
@@ -39,7 +39,7 @@ module.exports = function ($scope, $location, $cookies, rest, config) {
 		delete $cookies.currentUser;
 		delete $cookies.privateToken;
 
-		$location.path("/home");
+		$location.path("/");
 
 		rest.addMessage({
 			type: "success",
@@ -47,8 +47,13 @@ module.exports = function ($scope, $location, $cookies, rest, config) {
 		});
 	};
 
-	$scope.getUsername = function() {
+	$scope.getUsername = function () {
 		return config.auth.currentUser;
+	};
+
+	$scope.setLang = function (langKey) {
+		$translate.use(langKey);
+		$cookies.lang = langKey;
 	};
 
 };
