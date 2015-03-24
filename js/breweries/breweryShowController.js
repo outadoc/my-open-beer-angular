@@ -3,6 +3,7 @@ module.exports = function ($scope, rest, $timeout, $location, config, $route, sa
 	$scope.brewery = config.activeBrewery;
 	$scope.data = {load: false};
 	$scope.showBeers = false;
+	$scope.existeBeers = null;
 	$scope.beers = null;
 
 	if (angular.isUndefined(config.activeBrewery)) {
@@ -21,5 +22,10 @@ module.exports = function ($scope, rest, $timeout, $location, config, $route, sa
 
 	$scope.show = function () {
 		$scope.showBeers = !$scope.showBeers;
+		if ($scope.beers['all'] != null) {
+			$scope.existeBeers = true;
+		} else {
+			$scope.existeBeers = false;
+		}
 	};
 };

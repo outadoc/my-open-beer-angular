@@ -35,27 +35,32 @@
     <div class="panel panel-default">
         <div class="panel-heading">Liste des bières</div>
         <div class="panel-body" id="panelListBeers">
-            <table class="table table-striped table-condensed" id="tableListBeers">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Photo </th>
-                    <th>Description</th>
-                    <th>Created at</th>
-                    <th>Updated at</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr data-ng-repeat="beer in beers['all']">
-                    <td>{{beer.id}}</td><td>{{beer.name}}
-                    <td><a href="{{beer.photo}}"><img ng-src="{{beer.photo}}" width="150"></a></td>
-                    <td>{{beer.description}}</td>
-                    <td>{{beer.created_at | date:'dd/MM/yy HH:mm:ss'}}</td>
-                    <td>{{beer.updated_at | date:'dd/MM/yy HH:mm:ss'}}</td>
-                </tr>
-                </tbody>
-            </table>
+            <div data-ng-show="existeBeers">
+                <table class="table table-striped table-condensed" id="tableListBeers">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Photo </th>
+                        <th>Description</th>
+                        <th>Created at</th>
+                        <th>Updated at</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr data-ng-repeat="beer in beers['all']">
+                        <td>{{beer.id}}</td><td>{{beer.name}}
+                        <td><a href="{{beer.photo}}"><img ng-src="{{beer.photo}}" width="150"></a></td>
+                        <td>{{beer.description}}</td>
+                        <td>{{beer.created_at | date:'dd/MM/yy HH:mm:ss'}}</td>
+                        <td>{{beer.updated_at | date:'dd/MM/yy HH:mm:ss'}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div data-ng-hide="existeBeers">
+                <p id="noBeerFound">Aucune bière pour cette brasserie.</p>
+            </div>
         </div>
     </div>
 </div>
