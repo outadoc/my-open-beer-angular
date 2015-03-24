@@ -13,11 +13,11 @@ module.exports = function ($scope, config, $location) {
 			config.beers = $scope.config.beers;
 		}
 
-		$location.path("/home");
+		$location.path("/");
 	};
 
 	$scope.cancel = function () {
-		$location.path("/home");
+		$location.path("/");
 	};
 
 };

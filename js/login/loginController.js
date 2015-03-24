@@ -39,7 +39,7 @@ module.exports = function ($scope, $location, $cookies, $translate, rest, config
 		delete $cookies.currentUser;
 		delete $cookies.privateToken;
 
-		$location.path("/home");
+		$location.path("/");
 
 		rest.addMessage({
 			type: "success",
