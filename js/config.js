@@ -1,4 +1,4 @@
-module.exports = function ($routeProvider, $locationProvider, $httpProvider) {
+module.exports = function ($routeProvider, $locationProvider, $httpProvider, $translateProvider) {
 
 	//$httpProvider.defaults.useXDomain = true;
 	//$httpProvider.defaults.withCredentials = true;
@@ -67,5 +67,88 @@ module.exports = function ($routeProvider, $locationProvider, $httpProvider) {
 	if (window.history && window.history.pushState) {
 		$locationProvider.html5Mode(true);
 	}
+
+	$translateProvider.translations('fr', {
+		global: {
+			SUBTITLE: "Une base de données et API gratuite et publique pour les bières.",
+			INFO_TITLE: "Informations"
+		},
+		main: {
+			HOME: "Accueil",
+			CONFIG: "Configuration",
+			breweries: {
+				TITLE: "Brasseries et brasseurs",
+				LIST: "Liste des brasseries/brasseurs",
+				ADD: "Ajouter une brasserie..."
+			},
+			beers: {
+				TITLE: "Bières",
+				LIST: "Liste des bières",
+				ADD: "Ajouter une bière..."
+			}
+		},
+		auth: {
+			LOGIN: "Connexion",
+			LOGOUT: "Déconnexion"
+		},
+		config: {
+			BREWERIES: "Brasseries",
+			BEERS: "Bières",
+			SAVE: "Sauvegarder les modifications",
+			CANCEL: "Annuler",
+			mode: {
+				TITLE: "Mode de connexion",
+				ONLINE: "Mode connecté (Chargement à chaque affichage et mise à jour immédiate)",
+				OFFLINE: "Mode hors connexion (chargement et mise à jour à la demande)"
+			},
+			server: {
+				TITLE: "Paramétres d'accès au serveur distant",
+				URL: "URL",
+				TOKEN: "Jeton privé",
+				FORCE: "Forcer la connexion"
+			}
+		},
+		login: {
+			TITLE: "Connexion",
+			EMAIL: "Adresse email",
+			PASSWORD: "Mot de passe",
+			REMEMBER: "Se souvenir de moi"
+		},
+		list: {
+			ADD: "Ajouter...",
+			HIDE_DELETED: "Masquer les suppressions",
+			FILTER: "Filtrer...",
+			NAME: "Nom",
+			URL: "URL",
+			DESCRIPTION: "Description",
+			PHOTO: "Photo",
+			CREATED_AT: "Créé à",
+			UPDATED_AT: "Modifié à",
+			beers: {
+				SHOW: "Voir la bière",
+				UPDATE: "Modifier la bière"
+			},
+			breweries: {
+				SHOW: "Voir la brasserie",
+				UPDATE: "Modifier la brasserie"
+			}
+		},
+		edit: {
+			SUBMIT: "Valider",
+			CANCEL: "Annuler"
+		},
+		show: {
+			beers: {
+				DISPLAY: "Afficher les bières",
+				BACK: "Retour à la liste des bières"
+			},
+			breweries: {
+				DISPLAY: "Afficher la brasserie",
+				BACK: "Retour à la liste des brasseries"
+			}
+		}
+	});
+
+	$translateProvider.preferredLanguage('fr');
 
 };
