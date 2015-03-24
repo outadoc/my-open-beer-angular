@@ -68,7 +68,7 @@ module.exports = function ($routeProvider, $locationProvider, $httpProvider, $tr
 		$locationProvider.html5Mode(true);
 	}
 
-	$translateProvider.translations('fr', {
+	$translateProvider.translations('fr_FR', {
 		global: {
 			SUBTITLE: "Une base de données et API gratuite et publique pour les bières.",
 			INFO_TITLE: "Informations"
@@ -149,6 +149,87 @@ module.exports = function ($routeProvider, $locationProvider, $httpProvider, $tr
 		}
 	});
 
-	$translateProvider.preferredLanguage('fr');
+	$translateProvider.translations('en_US', {
+		global: {
+			SUBTITLE: "A free, public database and API for beer information.",
+			INFO_TITLE: "Informations"
+		},
+		main: {
+			HOME: "Home",
+			CONFIG: "Configuration",
+			breweries: {
+				TITLE: "Breweries/brewers",
+				LIST: "Breweries List",
+				ADD: "Add a brewery..."
+			},
+			beers: {
+				TITLE: "Beers",
+				LIST: "Beers List",
+				ADD: "Add a beer..."
+			}
+		},
+		auth: {
+			LOGIN: "Login",
+			LOGOUT: "Logout"
+		},
+		config: {
+			BREWERIES: "Breweries",
+			BEERS: "Beers",
+			SAVE: "Save",
+			CANCEL: "Cancel",
+			mode: {
+				TITLE: "Connection mode",
+				ONLINE: "Online mode",
+				OFFLINE: "Offline mode"
+			},
+			server: {
+				TITLE: "Server settings",
+				URL: "URL",
+				TOKEN: "Private Token",
+				FORCE: "Force Connection"
+			}
+		},
+		login: {
+			TITLE: "Login",
+			EMAIL: "Email address",
+			PASSWORD: "Password",
+			REMEMBER: "Remember me"
+		},
+		list: {
+			ADD: "Add...",
+			HIDE_DELETED: "Hide deleted",
+			FILTER: "Filter...",
+			NAME: "Name",
+			URL: "URL",
+			DESCRIPTION: "Description",
+			PHOTO: "Photo",
+			CREATED_AT: "Created at",
+			UPDATED_AT: "Edited at",
+			beers: {
+				SHOW: "Show beer",
+				UPDATE: "Edit beer"
+			},
+			breweries: {
+				SHOW: "Show brewery",
+				UPDATE: "Edit brewery"
+			}
+		},
+		edit: {
+			SUBMIT: "Submit",
+			CANCEL: "Cancel"
+		},
+		show: {
+			beers: {
+				DISPLAY: "Show brewery",
+				BACK: "Back to beers list"
+			},
+			breweries: {
+				DISPLAY: "Show beers",
+				BACK: "Back to breweries list"
+			}
+		}
+	});
+
+	$translateProvider.preferredLanguage('en_US');
 
 };
