@@ -5,14 +5,21 @@
         </div>
         <div class="panel-body">
             <form novalidate name="formLogin" data-ng-submit="formLogin.$valid && login()">
-                <div class="form-group" data-ng-class="{'has-error has-feedback': formLogin.email.$invalid && formLogin.email.$dirty}">
+                <div class="form-group"
+                     data-ng-class="{'has-error has-feedback': formLogin.email.$invalid && formLogin.email.$dirty}">
                     <label for="email">Adresse email</label>
-                    <input type="email" name="email" class="form-control" id="email" data-ng-model="email" placeholder="jcheron@kobject.net">
+                    <input type="email" name="email" class="form-control" id="email" data-ng-model="email"
+                           placeholder="jcheron@kobject.net">
                 </div>
-                <div class="form-group" data-ng-class="{'has-error has-feedback': wrongPassword && formLogin.password.$dirty}">
+                <div class="form-group"
+                     data-ng-class="{'has-error has-feedback': wrongPassword && formLogin.password.$dirty}">
                     <label for="password">Mot de passe</label>
                     <input type="password" name="password" class="form-control" id="password" data-ng-model="password"
                            data-ng-change="wrongPassword = false">
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" name="remember" id="remember" data-ng-model="remember" checked>
+                    <label for="remember">Se souvenir de moi</label>
                 </div>
                 <div class="form-group">
                     <input type="submit" class="form-control btn btn-primary">

@@ -1,7 +1,7 @@
-angular.module("mainApp", ["ngRoute", "ngResource", "ngAnimate", require("./breweries/breweriesModule"), require("./beers/beersModule"), require("./config/configModule")]).
+angular.module("mainApp", ["ngRoute", "ngResource", "ngAnimate", "ngCookies", require("./breweries/breweriesModule"), require("./beers/beersModule"), require("./config/configModule")]).
 	controller("MainController", ["$scope", "$location", "save", "$window", "$timeout", "config", "rest", require("./mainController")]).
 	controller("SaveController", ["$scope", "$location", "save", require("./save/saveController")]).
-	controller("LoginController", ["$scope", "$location", "rest", require("./login/loginController")]).
+	controller("LoginController", ["$scope", "$location", "$cookies", "rest", "config", require("./login/loginController")]).
 	service("rest", ["$http", "$resource", "$location", "config", "$sce", require("./services/rest")]).
 	service("save", ["rest", "config", "$route", require("./services/save")]).
 	config(["$routeProvider", "$locationProvider", "$httpProvider", require("./config")]).
@@ -35,6 +35,7 @@ angular.module("mainApp", ["ngRoute", "ngResource", "ngAnimate", require("./brew
 			}
 
 			$rootScope.paths = result;
+			$rootScope.title = current.$$route.title;
 		});
 
 		$rootScope.$on("$routeChangeStart", function (event, next, current) {
@@ -50,4 +51,4 @@ angular.module("mainApp", ["ngRoute", "ngResource", "ngAnimate", require("./brew
 		});
 
 	}]
-).factory("config", require("./config/configFactory"));
+).factory("config", ["$cookies", require("./config/configFactory")]);

@@ -35,30 +35,4 @@ module.exports = function ($scope, $location, save, $window, $timeout, config, r
 		$window.removeEventListener('beforeunload', beforeUnload);
 	});
 
-	$scope.isLoggedIn = function () {
-		return config.auth.privateToken !== null;
-	};
-
-	$scope.login = function () {
-		$location.path("/login");
-	};
-
-	$scope.logout = function () {
-		console.log("logging out");
-
-		config.auth.currentUser = null;
-		config.auth.privateToken = null;
-
-		$location.path("/home");
-
-		rest.addMessage({
-			type: "success",
-			content: "Vous êtes maintenant déconnecté."
-		});
-	};
-
-	$scope.getUsername = function() {
-		return config.auth.currentUser;
-	};
-
 };

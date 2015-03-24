@@ -1,4 +1,4 @@
-module.exports = function () {
+module.exports = function ($cookies) {
 	var factory = {breweries: {}, server: {}, beers: {}, auth: {}, routes: {}};
 
 	factory.activeBrewery = undefined;
@@ -12,8 +12,8 @@ module.exports = function () {
 	factory.server.restServerUrl = "http://127.0.0.1/rest-open-beer/";
 	factory.server.force = false;
 
-	factory.auth.currentUser = null;
-	factory.auth.privateToken = null;
+	factory.auth.currentUser = $cookies.currentUser;
+	factory.auth.privateToken = $cookies.privateToken;
 
 	factory.routes.privateTemplates = ['/beers/beerForm.html', '/breweries/breweryForm.html'];
 
