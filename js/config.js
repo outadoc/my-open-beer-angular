@@ -70,7 +70,7 @@ module.exports = function ($routeProvider, $locationProvider, $httpProvider, $tr
 
 	$translateProvider.translations('fr', {
 		global: {
-			SUBTITLE: "Une base de données et API gratuite et publique pour les bières.",
+			SUBTITLE: "Une base de données et API gratuite et publique pour les ours.",
 			INFO_TITLE: "Informations"
 		},
 		main: {

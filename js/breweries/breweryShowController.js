@@ -3,6 +3,7 @@ module.exports = function ($scope, rest, $timeout, $location, config, $route, sa
 	$scope.brewery = config.activeBrewery;
 	$scope.data = {load: false};
 	$scope.showBeers = false;
+	$scope.beers = null;
 
 	if (angular.isUndefined(config.activeBrewery)) {
 		$location.path("breweries/");
