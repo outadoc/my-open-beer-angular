@@ -1,7 +1,7 @@
 angular.module("mainApp", ["ngRoute", "ngResource", "ngAnimate", "ngCookies", "pascalprecht.translate", require("./breweries/breweriesModule"), require("./beers/beersModule"), require("./config/configModule")]).
 	controller("MainController", ["$scope", "$location", "save", "$window", "$timeout", "config", "rest", require("./mainController")]).
 	controller("SaveController", ["$scope", "$location", "save", require("./save/saveController")]).
-	controller("LoginController", ["$scope", "$location", "$cookies", "rest", "config", require("./login/loginController")]).
+	controller("LoginController", ["$scope", "$location", "$cookies", "$translate", "rest", "config", require("./login/loginController")]).
 	service("rest", ["$http", "$resource", "$location", "config", "$sce", require("./services/rest")]).
 	service("save", ["rest", "config", "$route", require("./services/save")]).
 	config(["$routeProvider", "$locationProvider", "$httpProvider", "$translateProvider", require("./config")]).
