@@ -1,4 +1,4 @@
-module.exports = function ($routeProvider, $locationProvider, $httpProvider) {
+module.exports = function ($routeProvider, $locationProvider, $httpProvider, $translateProvider) {
 
 	//$httpProvider.defaults.useXDomain = true;
 	//$httpProvider.defaults.withCredentials = true;
@@ -67,5 +67,32 @@ module.exports = function ($routeProvider, $locationProvider, $httpProvider) {
 	if (window.history && window.history.pushState) {
 		$locationProvider.html5Mode(true);
 	}
+
+	$translateProvider.translations('fr', {
+		global: {
+			SUBTITLE: "Une base de données et API gratuite et publique pour les bières.",
+			INFO_TITLE: "Informations"
+		},
+		main: {
+			HOME: "Accueil",
+			CONFIG: "Configuration",
+			breweries: {
+				TITLE: "Brasseries et brasseurs",
+				LIST: "Liste des brasseries/brasseurs",
+				ADD: "Ajouter une brasserie..."
+			},
+			beers: {
+				TITLE: "Bières",
+				LIST: "Liste des bières",
+				ADD: "Ajouter une bière..."
+			}
+		},
+		auth: {
+			LOGIN: "Connexion",
+			LOGOUT: "Déconnexion"
+		}
+	});
+
+	$translateProvider.preferredLanguage('fr');
 
 };
