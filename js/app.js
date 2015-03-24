@@ -35,6 +35,7 @@ angular.module("mainApp", ["ngRoute", "ngResource", "ngAnimate", "ngCookies", re
 			}
 
 			$rootScope.paths = result;
+			$rootScope.title = current.$$route.title;
 		});
 
 		$rootScope.$on("$routeChangeStart", function (event, next, current) {

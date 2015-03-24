@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html data-ng-app="mainApp" data-ng-cloak>
 <head>
+    <title ng-bind="'Open Beer &mdash; ' + title">Open Beer</title>
+
     <base href="http://127.0.0.1/my-open-beer-angular/">
     <meta charset="UTF-8">
 
@@ -36,7 +38,7 @@
 <div class="container">
     <ol class="breadcrumb">
         <li><a href="home"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp;Home</a></li>
-        <li ng-repeat="page in paths"><a ng-href="{{page.href}}">&nbsp;{{page.caption}}</a></li>
+        <li data-ng-repeat="page in paths"><a data-ng-href="{{page.href}}">&nbsp;{{page.caption}}</a></li>
     </ol>
 </div>
 <div class="container" data-ng-controller="LoginController">
