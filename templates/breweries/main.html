@@ -13,8 +13,11 @@
 	<div class="btn-group" role="group" aria-label="opération" data-ng-show="defferedUpdate()">
 		<a class="btn btn-default" data-ng-class="{'active': mustHideDeleted}" data-ng-click="hideDeleted()">Masquer les suppressions</a>
 	</div>
+    <div class="btn-group" role="group" aria-label="Voir">
+        <a class="btn btn-default btn-block" data-ng-show="showUpdate()" data-ng-click="show()">Voir la brasserie</a>
+    </div>
 	<div class="btn-group" role="group" aria-label="Modifier">
-		<a class="btn btn-default" data-ng-show="showUpdate()" data-ng-click="edit()">Modifier</a>
+		<a class="btn btn-default" data-ng-show="showUpdate()" data-ng-click="edit()">Modifier la brasserie</a>
 	</div>
 	<div class="btn-group" role="group" aria-label="Supprimer">
 		<a class="btn btn-default" data-ng-show="countSelected()>0" data-ng-click="remove()">
@@ -29,7 +32,6 @@
 	<div class="btn-group" role="group" aria-label="false" data-ng-show="data.load">
 		<img class="btn" src="img/loader.gif">
 	</div>
-	
 </div>
 <table class="table table-striped table-condensed">
 	<thead>
