@@ -36,6 +36,9 @@ module.exports = function ($http, $resource, $location, restConfig, $sce) {
 				content: "Erreur de connexion au serveur, statut de la réponse : " + status
 			});
 			console.log("Erreur de connexion au serveur, statut de la réponse : " + status);
+			response[caption] = null;
+			restConfig[caption].all = null;
+			response.load = null;
 		});
 	};
 

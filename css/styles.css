@@ -100,3 +100,7 @@ tr.active {
 #tableListBeers {
     margin-bottom: 0px;
 }
+
+#noBeerFound {
+    margin: 15px;
+}
