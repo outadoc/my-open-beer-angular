@@ -51,4 +51,4 @@ angular.module("mainApp", ["ngRoute", "ngResource", "ngAnimate", "ngCookies", "p
 		});
 
 	}]
-).factory("config", ["$cookies", require("./config/configFactory")]);
+).factory("config", ["$cookies", "$translate", require("./config/configFactory")]);

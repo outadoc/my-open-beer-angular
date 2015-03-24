@@ -52,8 +52,8 @@ module.exports = function ($scope, $location, $cookies, $translate, rest, config
 	};
 
 	$scope.setLang = function (langKey) {
-		// You can change the language during runtime
 		$translate.use(langKey);
+		$cookies.lang = langKey;
 	};
 
 };

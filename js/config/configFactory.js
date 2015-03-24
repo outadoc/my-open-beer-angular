@@ -1,4 +1,4 @@
-module.exports = function ($cookies) {
+module.exports = function ($cookies, $translate) {
 	var factory = {breweries: {}, server: {}, beers: {}, auth: {}, routes: {}};
 
 	factory.activeBrewery = undefined;
@@ -16,6 +16,10 @@ module.exports = function ($cookies) {
 	factory.auth.privateToken = $cookies.privateToken;
 
 	factory.routes.privateTemplates = ['/beers/beerForm.html', '/breweries/breweryForm.html'];
+
+	if($cookies.lang != null) {
+		$translate.use($cookies.lang);
+	}
 
 	return factory;
 };
