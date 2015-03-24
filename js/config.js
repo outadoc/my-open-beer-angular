@@ -90,6 +90,23 @@ module.exports = function ($routeProvider, $locationProvider, $httpProvider, $tr
 		auth: {
 			LOGIN: "Connexion",
 			LOGOUT: "Déconnexion"
+		},
+		config: {
+			BREWERIES: "Brasseries",
+			BEERS: "Bières",
+			SAVE: "Sauvegarder les modifications",
+			CANCEL: "Annuler",
+			mode: {
+				TITLE: "Mode de connexion",
+				ONLINE: "Mode connecté (Chargement à chaque affichage et mise à jour immédiate)",
+				OFFLINE: "Mode hors connexion (chargement et mise à jour à la demande)"
+			},
+			server: {
+				TITLE: "Paramétres d'accès au serveur distant",
+				URL: "URL",
+				TOKEN: "Jeton privé",
+				FORCE: "Forcer la connexion"
+			}
 		}
 	});
 
