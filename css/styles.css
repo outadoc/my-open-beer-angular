@@ -92,3 +92,7 @@ tr.active {
 #colBtn {
     width: 10%;
 }
+
+#panelListBeers {
+    padding: 0px;
+}
