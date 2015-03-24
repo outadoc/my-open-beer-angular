@@ -113,6 +113,25 @@ module.exports = function ($routeProvider, $locationProvider, $httpProvider, $tr
 			EMAIL: "Adresse email",
 			PASSWORD: "Mot de passe",
 			REMEMBER: "Se souvenir de moi"
+		},
+		list: {
+			ADD: "Ajouter...",
+			HIDE_DELETED: "Masquer les suppressions",
+			FILTER: "Filtrer...",
+			NAME: "Nom",
+			URL: "URL",
+			DESCRIPTION: "Description",
+			PHOTO: "Photo",
+			CREATED_AT: "Créé à",
+			UPDATED_AT: "Modifié à",
+			beers: {
+				SHOW: "Voir la bière",
+				UPDATE: "Modifier la bière"
+			},
+			breweries: {
+				SHOW: "Voir la brasserie",
+				UPDATE: "Modifier la brasserie"
+			}
 		}
 	});
 

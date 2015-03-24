@@ -5,19 +5,19 @@
 		</a>
 	</div>
 	<div class="btn-group" role="group" aria-label="filter">
-		<input class="form-control" type="text" placeholder="Filtrer..." data-ng-model="q">
+		<input class="form-control" type="text" placeholder="{{ 'list.FILTER' | translate }}" data-ng-model="q">
 	</div>
 	<div class="btn-group" role="group" aria-label="opération">
-		<a href="beers/new" class="btn btn-warning">Ajouter...</a>
+		<a href="beers/new" class="btn btn-warning" translate="list.ADD"></a>
 	</div>
 	<div class="btn-group" role="group" aria-label="opération" data-ng-show="defferedUpdate()">
-		<a class="btn btn-default" data-ng-class="{'active': mustHideDeleted}" data-ng-click="hideDeleted()">Masquer les suppressions</a>
+		<a class="btn btn-default" data-ng-class="{'active': mustHideDeleted}" data-ng-click="hideDeleted()" translate="list.HIDE_DELETED"></a>
 	</div>
     <div class="btn-group" role="group" aria-label="Voir">
-        <a class="btn btn-default btn-block" data-ng-show="showUpdate()" data-ng-click="show()">Voir la bière</a>
+        <a class="btn btn-default btn-block" data-ng-show="showUpdate()" data-ng-click="show()" translate="list.beers.SHOW"></a>
     </div>
     <div class="btn-group" role="group" aria-label="Modifier">
-        <a class="btn btn-default" data-ng-show="showUpdate()" data-ng-click="edit()">Modifier la bière</a>
+        <a class="btn btn-default" data-ng-show="showUpdate()" data-ng-click="edit()" translate="list.beers.UPDATE"></a>
     </div>
 	<div class="btn-group" role="group" aria-label="Supprimer">
 		<a class="btn btn-default" data-ng-show="countSelected()>0" data-ng-click="remove()">
@@ -38,11 +38,11 @@
 		<tr>
 			<th><input type="checkbox" title="Sélectionner" data-ng-click="selectAll()" data-ng-model="allSelected"></th>
 			<th data-sort-by data-field="id" data-ref="sortBy">#</th>
-			<th data-sort-by data-field="name" data-ref="sortBy">Name</th>
-            <th>Photo </th>
-			<th data-sort-by data-field="description" data-ref="sortBy">Description</th>
-			<th data-sort-by data-field="created_at" data-ref="sortBy">Created at</th>
-			<th>Updated at</th>
+			<th data-sort-by data-field="name" data-ref="sortBy"><span translate="list.NAME"></span></th>
+            <th><span translate="list.PHOTO"></span></th>
+			<th data-sort-by data-field="description" data-ref="sortBy"><span translate="list.DESCRIPTION"></span></th>
+			<th data-sort-by data-field="created_at" data-ref="sortBy"><span translate="list.CREATED_AT"></span></th>
+			<th translate="list.UPDATED_AT"></th>
 		</tr>
 	</thead>
 	<tbody>
