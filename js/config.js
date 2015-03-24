@@ -230,6 +230,6 @@ module.exports = function ($routeProvider, $locationProvider, $httpProvider, $tr
 		}
 	});
 
-	$translateProvider.preferredLanguage('en_US');
+	$translateProvider.preferredLanguage('fr_FR');
 
 };
