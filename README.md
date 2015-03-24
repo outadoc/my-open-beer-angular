@@ -1,4 +1,4 @@
-![open-beer logo](http://open-beer.kobject.net/img/logo.png "open-beer logo")
+![open-beer logo](http://i.imgur.com/xiYslnz.png "open-beer logo")
 # my-open-beer-angular
 AngularJs project with API Rest access
 
