@@ -132,6 +132,10 @@ module.exports = function ($routeProvider, $locationProvider, $httpProvider, $tr
 				SHOW: "Voir la brasserie",
 				UPDATE: "Modifier la brasserie"
 			}
+		},
+		edit: {
+			SUBMIT: "Valider",
+			CANCEL: "Annuler"
 		}
 	});
 
