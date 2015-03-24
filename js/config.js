@@ -71,7 +71,7 @@ module.exports = function ($routeProvider, $locationProvider, $httpProvider, $tr
 	$translateProvider.translations('fr_FR', {
 		global: {
 			INFO_TITLE: "Informations",
-			LANGUAGE: "Langue"
+			LANGUAGE: "Langue",
 			SUBTITLE: "Une base de données et API gratuite et publique pour les ours."
 		},
 		language: {
@@ -156,7 +156,7 @@ module.exports = function ($routeProvider, $locationProvider, $httpProvider, $tr
 
 	$translateProvider.translations('en_US', {
 		global: {
-			SUBTITLE: "A free, public database and API for beer information.",
+			SUBTITLE: "A free, public database and API for bear information.",
 			INFO_TITLE: "Informations",
 			LANGUAGE: "Language"
 		},
