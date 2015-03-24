@@ -93,11 +93,11 @@ tr.active {
     width: 10%;
 }
 
-#panelListBeers {
+#panelListTable {
     padding: 0px;
 }
 
-#tableListBeers {
+#listTable {
     margin-bottom: 0px;
 }
 
