@@ -96,3 +96,7 @@ tr.active {
 #panelListBeers {
     padding: 0px;
 }
+
+#tableListBeers {
+    margin-bottom: 0px;
+}
