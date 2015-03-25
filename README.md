@@ -1,5 +1,5 @@
 ![open-beer logo](http://i.imgur.com/xiYslnz.png "open-beer logo")
-# my-open-beer-angular
+# my-open-bear-angular
 AngularJs project with API Rest access
 
 # Travail effectué
